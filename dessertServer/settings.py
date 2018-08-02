@@ -11,6 +11,10 @@ https://docs.djangoproject.com/en/dev/ref/settings/
 """
 
 import os
+import configparser
+
+
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -75,14 +79,17 @@ WSGI_APPLICATION = 'dessertServer.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/dev/ref/settings/#databases
 
+config = configparser.ConfigParser()
+config.read('settings.ini')
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': '프로젝트명',
-        'USER': '사용자 이름',
-        'PASSWORD': '비밀번호',
-        'HOST': 'localhost',
-        'PORT': '',
+        'NAME': config['DBSETTINGS']['DB_NAME'],
+        'USER': config['DBSETTINGS']['USER'],
+        'PASSWORD': config['DBSETTINGS']['PASSWORD'],
+        'HOST': config['DBSETTINGS']['HOST'],
+        'PORT': config['DBSETTINGS']['PORT'],
     }
 }
 
