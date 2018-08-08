@@ -13,9 +13,10 @@ from django.views.decorators.csrf import csrf_exempt
     # 4. 신규가입자에게 정보동의를 얻고 해당 Token과 사용자의 정보를 DB에 저장.
 
 
-def index(request, accessToken):
+def index(request):
     if request.method == "POST":
-        for accessToken in User.objects.all():
+        accessToken = request.POST['accessToken']
+        if accessToken in User.objects.accesstoken():
             return HttpResponse({'result': 'signin_req'})
         else:
             return HttpResponse({'result': 'signup_req'})
