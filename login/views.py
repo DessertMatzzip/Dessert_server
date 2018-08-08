@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from django.shortcuts import render
 from django.http import HttpResponse
+from .models import User
+from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
 
 # 작동원리
@@ -11,6 +13,9 @@ from django.http import HttpResponse
     # 4. 신규가입자에게 정보동의를 얻고 해당 Token과 사용자의 정보를 DB에 저장.
 
 
-def index(request):
-    return HttpResponse("accessToken이 이미 DB에 있어서, 기존 사용자이므로 메인 액티비티로 전환함")
-
+def index(request, accessToken):
+    if request.method == "POST":
+        for accessToken in User.objects.all():
+            return HttpResponse({'result': 'signin_req'})
+        else:
+            return HttpResponse({'result': 'signup_req'})
