@@ -12,11 +12,11 @@ from django.views.decorators.csrf import csrf_exempt
     #    그러나 accessToken이 DB에 없으면 신규가입자이므로, 가입 약관 액티비티로 이동시킴.
     # 4. 신규가입자에게 정보동의를 얻고 해당 Token과 사용자의 정보를 DB에 저장.
 
-
+@csrf_exempt
 def index(request):
     if request.method == "POST":
         accessToken = request.POST['accessToken']
-        if accessToken in User.objects.accesstoken():
+        if accessToken in User.objects.all():
             return HttpResponse({'result': 'signin_req'})
         else:
             return HttpResponse({'result': 'signup_req'})
