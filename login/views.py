@@ -3,6 +3,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from .models import User
 from django.views.decorators.csrf import csrf_exempt
+import json
 # Create your views here.
 
 # 작동원리
@@ -17,6 +18,6 @@ def index(request):
     if request.method == "POST":
         accessToken = request.POST['accessToken']
         if accessToken in User.objects.all():
-            return HttpResponse({'result': 'signin_req'})
+            return HttpResponse(json.dumps({'result': 'signin_req'}))
         else:
-            return HttpResponse({'result': 'signup_req'})
+            return HttpResponse(json.dumps({'result': 'signup_req'}))
