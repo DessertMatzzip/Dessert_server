@@ -24,4 +24,9 @@ DessertMatzzip_Server
 > - 외부 ini파일을 통한 DB setting을 gitignore
 > - django project models class --> DB 구축 테스트 확인
 > > ![스크린샷](./screenshots/2018-08-02.png)
+
+## 2018.08.09
+> - 로그인 api 완성 (카카오톡, 페이스북 accesstoken->db확인)
+> - accesstoken이 db에 있으면 signin_req / 없으면 signup_req 반환
+> > ![스크린샷](./screenshots/2018-08-09.png)
 -----------------
