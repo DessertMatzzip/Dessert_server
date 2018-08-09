@@ -13,10 +13,22 @@ import json
     #    그러나 accessToken이 DB에 없으면 신규가입자이므로, 가입 약관 액티비티로 이동시킴.
     # 4. 신규가입자에게 정보동의를 얻고 해당 Token과 사용자의 정보를 DB에 저장.
 
+# facebook accesstoken db 확인
 @csrf_exempt
-def index(request):
+def loginFacebook(request):
     if request.method == "POST":
-        accessToken = request.POST['accessToken']
+        accessToken = request.POST.get('accessToken', '')
+        if accessToken in User.objects.all():
+            return HttpResponse(json.dumps({'result': 'signin_req'}))
+        else:
+            return HttpResponse(json.dumps({'result': 'signup_req'}))
+
+
+# kakao accesstoken db 확인
+@csrf_exempt
+def loginKakao(request):
+    if request.method == "POST":
+        accessToken = request.POST.get('accessToken','')
         if accessToken in User.objects.all():
             return HttpResponse(json.dumps({'result': 'signin_req'}))
         else:
