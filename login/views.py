@@ -33,3 +33,14 @@ def loginKakao(request):
             return HttpResponse(json.dumps({'result': 'signin_req'}))
         else:
             return HttpResponse(json.dumps({'result': 'signup_req'}))
+
+
+# 자체 accesstoken db 확인
+@csrf_exempt
+def loginItself(request):
+    if request.method == "POST":
+        accessToken = request.POST.get('accessToken','')
+        if accessToken in User.objects.all():
+            return HttpResponse(json.dumps({'result': 'signin_req'}))
+        else:
+            return HttpResponse(json.dumps({'result': 'signup_req'}))

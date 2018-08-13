@@ -8,3 +8,4 @@ class User(models.Model):
     age = models.IntegerField(default=0)
     accesstoken_facebook = models.CharField(max_length=200, default="charField")
     accesstoken_kakao = models.CharField(max_length=200, default="charField")
+    accesstoken_itself = models.CharField(max_length=200, default="charField")
