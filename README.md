@@ -31,4 +31,8 @@ DessertMatzzip_Server
 > > ![스크린샷](./screenshots/2018-08-09.png)
 > - 앱에서 카카오톡 로그인 url로 post 테스트 확인
 > > ![스크린샷](./screenshots/2018-08-09-2.png)
+
+## 2018.08.13
+> - 회원가입 api작업중
+> > ![스크린샷](./screenshots/2018-08-13.png)
 -----------------
