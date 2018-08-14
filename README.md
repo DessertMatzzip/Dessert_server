@@ -40,5 +40,6 @@ DessertMatzzip_Server
 > - 회원가입, 회원정보수정 api 문서 완료
 > - 회원가입, 정보수정을 위한 app 'join' 생성
 > > ![스크린샷](./screenshots/2018-08-14.png)
-> - app 'join'에서 app 'login'의 User table 접근시도중
+> - app 'join'에서 app 'login'의 User table 접근 및 값 INSERT 확인
+> > ![스크린샷](./screenshots/2018-08-14-2.png)
 -----------------
