@@ -37,6 +37,8 @@ DessertMatzzip_Server
 > > ![스크린샷](./screenshots/2018-08-13.png)
 
 ## 2018.08.14
-> - 회원가입 api 문서 완료
-> - 회원가입시 회원정보 DB로 입력테스트
+> - 회원가입, 회원정보수정 api 문서 완료
+> - 회원가입, 정보수정을 위한 app 'join' 생성
+> > ![스크린샷](./screenshots/2018-08-14.png)
+> - app 'join'에서 app 'login'의 User table 접근시도중
 -----------------
