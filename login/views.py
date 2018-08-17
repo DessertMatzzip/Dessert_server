@@ -27,7 +27,6 @@ def loginFacebook(request):
 # kakao accesstoken db 확인
 @csrf_exempt
 def loginKakao(request):
-
     if request.method == "POST":
         accessToken = request.POST.get('accessToken')
         if accessToken in User.objects.all():
