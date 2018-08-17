@@ -13,7 +13,7 @@ import json
 
 # 자체회원등록 join def
 @csrf_exempt
-def join(request):
+def joinItself(request):
     if request.method == "POST":
         userId = request.POST.get('userId', '')
         userName = request.POST.get('userName', '')
@@ -24,6 +24,39 @@ def join(request):
         user = User( userid = userId, name = userName, mail = userMail, age = userAge, phonenumber = userPhoneNumber, accesstoken_itself = userAccessToken)
         user.save()
         return HttpResponse(json.dumps({'result': 'signup'}))
+
+
+# 카카오톡 회원등록 join def
+@csrf_exempt
+def joinKakao(request):
+    if request.method == "POST":
+        userId = request.POST.get('userId', '')
+        userName = request.POST.get('userName', '')
+        userMail = request.POST.get('userMail', '')
+        userAge = request.POST.get('userAge', '')
+        userPhoneNumber = request.POST.get('userPhoneNumber', '')
+        userAccessToken = request.POST.get('userAccessToken', '')
+        user = User( userid = userId, name = userName, mail = userMail, age = userAge, phonenumber = userPhoneNumber, accesstoken_itself = userAccessToken)
+        user.save()
+        return HttpResponse(json.dumps({'result': 'signup'}))
+
+
+
+# 페이스북 회원등록 join def
+@csrf_exempt
+def joinFacebook(request):
+    if request.method == "POST":
+        userId = request.POST.get('userId', '')
+        userName = request.POST.get('userName', '')
+        userMail = request.POST.get('userMail', '')
+        userAge = request.POST.get('userAge', '')
+        userPhoneNumber = request.POST.get('userPhoneNumber', '')
+        userAccessToken = request.POST.get('userAccessToken', '')
+        user = User( userid = userId, name = userName, mail = userMail, age = userAge, phonenumber = userPhoneNumber, accesstoken_itself = userAccessToken)
+        user.save()
+        return HttpResponse(json.dumps({'result': 'signup'}))
+
+
 
 # 회원정보 수정 def
 @csrf_exempt
