@@ -9,18 +9,19 @@ import json
 # 작동원리
     # 1. 자체회원가입 버튼 클릭시 editText의 회원정보들을 DB에 입력
 
-    # 2. (회원정보 수정 시) 회원정보 수정 버튼 클릭시 editText의 회원정보들을 DB에 갱신
+    # 2. (회원정보 수정 시) 액세스 토큰값을 비교하여 해당 테이블의 회원 선택
+    # 3.  회원정보 수정 버튼 클릭시 editText의 회원정보들을 DB에 갱신
 
 # 자체회원등록 join def
 @csrf_exempt
 def joinItself(request):
     if request.method == "POST":
-        userId = request.POST.get('userId', '')
-        userName = request.POST.get('userName', '')
-        userMail = request.POST.get('userMail', '')
-        userAge = request.POST.get('userAge', '')
-        userPhoneNumber = request.POST.get('userPhoneNumber', '')
-        userAccessToken = request.POST.get('userAccessToken', '')
+        userId = request.POST.get('userId')
+        userName = request.POST.get('userName')
+        userMail = request.POST.get('userMail')
+        userAge = request.POST.get('userAge')
+        userPhoneNumber = request.POST.get('userPhoneNumber')
+        userAccessToken = request.POST.get('userAccessToken')
         user = User( userid = userId, name = userName, mail = userMail, age = userAge, phonenumber = userPhoneNumber, accesstoken_itself = userAccessToken)
         user.save()
         return HttpResponse(json.dumps({'result': 'signup'}))
@@ -30,13 +31,13 @@ def joinItself(request):
 @csrf_exempt
 def joinKakao(request):
     if request.method == "POST":
-        userId = request.POST.get('userId', '')
-        userName = request.POST.get('userName', '')
-        userMail = request.POST.get('userMail', '')
-        userAge = request.POST.get('userAge', '')
-        userPhoneNumber = request.POST.get('userPhoneNumber', '')
-        userAccessToken = request.POST.get('userAccessToken', '')
-        user = User( userid = userId, name = userName, mail = userMail, age = userAge, phonenumber = userPhoneNumber, accesstoken_itself = userAccessToken)
+        userId = request.POST.get('userId')
+        userName = request.POST.get('userName')
+        userMail = request.POST.get('userMail')
+        userAge = request.POST.get('userAge')
+        userPhoneNumber = request.POST.get('userPhoneNumber')
+        userAccessToken = request.POST.get('userAccessToken')
+        user = User( userid = userId, name = userName, mail = userMail, age = userAge, phonenumber = userPhoneNumber, accesstoken_kakao = userAccessToken)
         user.save()
         return HttpResponse(json.dumps({'result': 'signup'}))
 
@@ -46,13 +47,13 @@ def joinKakao(request):
 @csrf_exempt
 def joinFacebook(request):
     if request.method == "POST":
-        userId = request.POST.get('userId', '')
-        userName = request.POST.get('userName', '')
-        userMail = request.POST.get('userMail', '')
-        userAge = request.POST.get('userAge', '')
-        userPhoneNumber = request.POST.get('userPhoneNumber', '')
-        userAccessToken = request.POST.get('userAccessToken', '')
-        user = User( userid = userId, name = userName, mail = userMail, age = userAge, phonenumber = userPhoneNumber, accesstoken_itself = userAccessToken)
+        userId = request.POST.get('userId')
+        userName = request.POST.get('userName')
+        userMail = request.POST.get('userMail')
+        userAge = request.POST.get('userAge')
+        userPhoneNumber = request.POST.get('userPhoneNumber')
+        userAccessToken = request.POST.get('userAccessToken')
+        user = User( userid = userId, name = userName, mail = userMail, age = userAge, phonenumber = userPhoneNumber, accesstoken_facebook = userAccessToken)
         user.save()
         return HttpResponse(json.dumps({'result': 'signup'}))
 
@@ -62,5 +63,19 @@ def joinFacebook(request):
 @csrf_exempt
 def modify(request):
     if request.method == "POST":
+        userId = request.POST.get('userId')
+        userName = request.POST.get('userName')
+        userMail = request.POST.get('userMail')
+        userAge = request.POST.get('userAge')
+        userPhoneNumber = request.POST.get('userPhoneNumber')
+
+        user = User.objects.get(userid=userId)
+        user.name=userName
+        user.mail=userMail
+        user.age=userAge
+        user.phonenumber=userPhoneNumber
+
+        user.save()
+
         return HttpResponse(json.dumps({'result': 'modify success'}))
 

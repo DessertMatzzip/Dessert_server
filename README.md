@@ -32,14 +32,14 @@ DessertMatzzip_Server
 > > ![스크린샷](./screenshots/2018-08-02.png)
 
 ## 2018.08.09
-> - 로그인 api 완성 (카카오톡, 페이스북 accesstoken->db확인)
+> - 로그인 api 문서 및 구현완료 (카카오톡, 페이스북 accesstoken->db확인)
 > - accesstoken이 db에 있으면 signin_req / 없으면 signup_req 반환
 > > ![스크린샷](./screenshots/2018-08-09.png)
 > - 앱에서 카카오톡 로그인 url로 post 테스트 확인
 > > ![스크린샷](./screenshots/2018-08-09-2.png)
 
 ## 2018.08.13
-> - 회원가입 api작업중
+> - 회원가입 api 문서 작성중
 > > ![스크린샷](./screenshots/2018-08-13.png)
 
 ## 2018.08.14
@@ -48,4 +48,10 @@ DessertMatzzip_Server
 > > ![스크린샷](./screenshots/2018-08-14.png)
 > - app 'join'에서 app 'login'의 User table 접근 및 값 INSERT 확인
 > > ![스크린샷](./screenshots/2018-08-14-2.png)
+
+## 2018.08.17
+> - join앱 내 소셜, 자체 회원가입 함수 구현
+> - 회원정보 수정 함수 구현(DB갱신)
+> > ![스크린샷](./screenshots/2018-08-17.png)
+
 -----------------
