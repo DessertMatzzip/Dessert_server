@@ -17,7 +17,7 @@ import json
 @csrf_exempt
 def loginFacebook(request):
     if request.method == "POST":
-        accessToken = request.POST.get('accessToken', '')
+        accessToken = request.POST.get('accessToken')
         if accessToken in User.objects.all():
             return HttpResponse(json.dumps({'result': 'signin_req'}))
         else:
@@ -27,8 +27,9 @@ def loginFacebook(request):
 # kakao accesstoken db 확인
 @csrf_exempt
 def loginKakao(request):
+
     if request.method == "POST":
-        accessToken = request.POST.get('accessToken','')
+        accessToken = request.POST.get('accessToken')
         if accessToken in User.objects.all():
             return HttpResponse(json.dumps({'result': 'signin_req'}))
         else:
@@ -39,7 +40,7 @@ def loginKakao(request):
 @csrf_exempt
 def loginItself(request):
     if request.method == "POST":
-        accessToken = request.POST.get('accessToken','')
+        accessToken = request.POST.get('accessToken')
         if accessToken in User.objects.all():
             return HttpResponse(json.dumps({'result': 'signin_req'}))
         else:
