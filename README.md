@@ -1,15 +1,20 @@
 DessertMatzzip_Server
-===========
- 
+
 ### API 문서 : [Google docs로 이동](https://docs.google.com/document/d/1K3fzN_OUAdnAGoy0OsK1ejsdH4eCdTpa25JWxrYZ6W8/edit)
+
+-----------------
 
 # file structure
 
 - dessertServer : django project
 
-- login : django app for kakaotalk, facebook login
+- login : 회원 로그인을 위한 앱(페이스북, 카카오톡 연동로그인 + 자체로그인)
+
+- join : 회원가입과 회원정보 수정을 위한 앱
 
 - screenshots : 진행상황을 표시하기 위한 이미지 저장 폴더
+
+-----------------
 
 # 진행상황
 ## 2018.07.26
