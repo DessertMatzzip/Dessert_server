@@ -1,6 +1,6 @@
 DessertMatzzip_Server
 ===========
- 
+
 ### API 문서 : [Google docs로 이동](https://docs.google.com/document/d/1K3fzN_OUAdnAGoy0OsK1ejsdH4eCdTpa25JWxrYZ6W8/edit)
 
 # file structure
@@ -50,7 +50,13 @@ DessertMatzzip_Server
 
 ## 2018.08.18
 > - 스토리보드 기반으로 기능 추려내기
-> - 추려낸 기능 -> api 문서 작성
+
+## 2018.08.27
+> - 추려낸 기능 api문서 구현
+> - 가게 데이터 파트, 랭킹파트, 소셜기능 파트 api문서 구현
+
+## 2018.08.29
+> - api문서 -> 실제 서버 구현 작업ing...
 
 -----------------
 
@@ -58,6 +64,6 @@ DessertMatzzip_Server
 - 잘못된 매개변수(실패 시) : error occured 출력하는 것
 - DB에 입력된 토큰을 소유하여도 signin 미출력
 - get 출력
-- 스토리보드 기능추려내기
+- 댓글저장, 소셜기능(팔로우, 팔로워 저장), 가게가 사라졌어요 사용자 요청 경로, 랭킹 구현 방식 논의
 
 -----------------
