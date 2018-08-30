@@ -44,6 +44,9 @@ INSTALLED_APPS = [
 
     'login',
     'join',
+    'store',
+    'ranking',
+    'user',
 ]
 
 MIDDLEWARE = [
