@@ -20,6 +20,9 @@ import json
 # 7. 개인 컬렉션 리스트 저장하기(삭제하기)
 # 8. 해당 컬렉션에 존재하는 가게 리스트에서 추가, 삭제하기
 
+# +. 개인 컬렉션 리스트 생성하기
+# +. 가게정보들을 담을 컬렉션 리스트 생성하기(유저id+컬렉션 이름)에서 컬렉션 이름이 중복되지 않게 생성
+
 # 9. 가고싶은 가게 리스트 불러오기
 # 10. 가고싶은 가게 테이블에서 (유저id+가게id)를 통해 가게 정보 내어주기
 
@@ -50,6 +53,13 @@ def callCollection(request):
 # 개인 컬렉션 리스트내 가게정보 저장하기(삭제하기)
 @csrf_exempt
 def storageCollection(request):
+    if request.method == "POST":
+        return HttpResponse(json.dumps({'result': 'testok'}))
+
+
+# 개인 컬렉션 리스트 생성하기
+@csrf_exempt
+def createCollection(request):
     if request.method == "POST":
         return HttpResponse(json.dumps({'result': 'testok'}))
 

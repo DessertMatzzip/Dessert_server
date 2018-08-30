@@ -6,6 +6,7 @@ urlpatterns = [
     path('follower/call', views.callFollower, name='callFollower'),
     path('collection/call', views.callCollection, name='callCollection'),
     path('collection/storage', views.storageCollection, name='storageCollection'),
+    path('collection/create', views.createCollection, name='createCollection'),
     path('store/call', views.callStoreList, name='callStoreList'),
     path('store/storage', views.storageStoreList, name='storageStoreList'),
 ]
