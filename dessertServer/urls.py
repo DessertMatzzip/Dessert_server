@@ -20,4 +20,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('login/',include('login.urls')),
     path('join/',include('join.urls')),
+    path('store/',include('store.urls')),
+    path('ranking/',include('ranking.urls')),
+    path('user/',include('user.urls')),
+
 ]
