@@ -20,9 +20,11 @@ def joinItself(request):
         userName = request.POST.get('userName')
         userMail = request.POST.get('userMail')
         userAge = request.POST.get('userAge')
+        userGender= request.POST.get('userGender')
+        userRegion = request.POST.get('userRegion')
         userPhoneNumber = request.POST.get('userPhoneNumber')
         userAccessToken = request.POST.get('userAccessToken')
-        user = User( userid = userId, name = userName, mail = userMail, age = userAge, phonenumber = userPhoneNumber, accesstoken_itself = userAccessToken)
+        user = User( userid = userId, name = userName, mail = userMail, age = userAge, gender = userGender, region = userRegion, phonenumber = userPhoneNumber, accesstoken_itself = userAccessToken)
         user.save()
         return HttpResponse(json.dumps({'result': 'signup'}))
 
@@ -35,9 +37,11 @@ def joinKakao(request):
         userName = request.POST.get('userName')
         userMail = request.POST.get('userMail')
         userAge = request.POST.get('userAge')
+        userGender= request.POST.get('userGender')
+        userRegion = request.POST.get('userRegion')
         userPhoneNumber = request.POST.get('userPhoneNumber')
         userAccessToken = request.POST.get('userAccessToken')
-        user = User( userid = userId, name = userName, mail = userMail, age = userAge, phonenumber = userPhoneNumber, accesstoken_kakao = userAccessToken)
+        user = User( userid = userId, name = userName, mail = userMail, age = userAge, gender = userGender, region = userRegion, phonenumber = userPhoneNumber, accesstoken_kakao = userAccessToken)
         user.save()
         return HttpResponse(json.dumps({'result': 'signup'}))
 
@@ -51,9 +55,11 @@ def joinFacebook(request):
         userName = request.POST.get('userName')
         userMail = request.POST.get('userMail')
         userAge = request.POST.get('userAge')
+        userGender= request.POST.get('userGender')
+        userRegion = request.POST.get('userRegion')
         userPhoneNumber = request.POST.get('userPhoneNumber')
         userAccessToken = request.POST.get('userAccessToken')
-        user = User( userid = userId, name = userName, mail = userMail, age = userAge, phonenumber = userPhoneNumber, accesstoken_facebook = userAccessToken)
+        user = User( userid = userId, name = userName, mail = userMail, age = userAge, gender = userGender, region = userRegion, phonenumber = userPhoneNumber, accesstoken_facebook = userAccessToken)
         user.save()
         return HttpResponse(json.dumps({'result': 'signup'}))
 
@@ -68,12 +74,16 @@ def modify(request):
         userMail = request.POST.get('userMail')
         userAge = request.POST.get('userAge')
         userPhoneNumber = request.POST.get('userPhoneNumber')
+        userGender= request.POST.get('userGender')
+        userRegion = request.POST.get('userRegion')
 
         user = User.objects.get(userid=userId)
         user.name=userName
         user.mail=userMail
         user.age=userAge
         user.phonenumber=userPhoneNumber
+        user.region=userRegion
+        user.Gender=userGender
 
         user.save()
 
