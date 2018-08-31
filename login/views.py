@@ -13,6 +13,8 @@ import json
     #    그러나 accessToken이 DB에 없으면 신규가입자이므로, 가입 약관 액티비티로 이동시킴.
     # 4. 신규가입자에게 정보동의를 얻고 해당 Token과 사용자의 정보를 DB에 저장.
 
+    # 5. 자체로그인의 경우 id와 pwd가 디비에 있는지 확인. 있다면 로그인 신호 넘겨줌.
+
 # facebook accesstoken db 확인
 @csrf_exempt
 def loginFacebook(request):
@@ -35,12 +37,16 @@ def loginKakao(request):
             return HttpResponse(json.dumps({'result': 'signup_req'}))
 
 
-# 자체 accesstoken db 확인
+# 자체 로그인, email(id)와 pwd를 db에서 확인
 @csrf_exempt
 def loginItself(request):
     if request.method == "POST":
-        accessToken = request.POST.get('accessToken')
-        if accessToken in User.objects.all():
-            return HttpResponse(json.dumps({'result': 'signin_req'}))
+        mail = request.POST.get('loginEmail')
+        password = request.POST.get('loginPwd')
+        if mail in User.objects.all():
+            if loginPwd in User.objects.all():
+                return HttpResponse(json.dumps({'result':'signin_req'}))
+            else:
+                return HttpResponse(json.dumps({'result': 'error_pwd'}))
         else:
-            return HttpResponse(json.dumps({'result': 'signup_req'}))
+            return HttpResponse(json.dumps({'result':'error_email'}))
