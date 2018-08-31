@@ -6,6 +6,7 @@ class User(models.Model):
     userid = models.CharField(max_length=200, default="charField")
     name = models.CharField(max_length=200)
     mail = models.CharField(max_length=200)
+    password = models.CharField(max_length=200, default="charField")
     age = models.IntegerField(default=0)
     gender = models.CharField(max_length=10, default="charField")
     region = models.CharField(max_length=10, default="charField")

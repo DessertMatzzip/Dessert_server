@@ -37,16 +37,16 @@ def loginKakao(request):
             return HttpResponse(json.dumps({'result': 'signup_req'}))
 
 
-# 자체 accesstoken db 확인
+# 자체 로그인, email(id)와 pwd를 db에서 확인
 @csrf_exempt
 def loginItself(request):
     if request.method == "POST":
-        loginId = request.POST.get('loginId')
-        loginPwd = request.POST.get('loginPwd')
-        if loginId in User.objects.all():
+        mail = request.POST.get('loginEmail')
+        password = request.POST.get('loginPwd')
+        if mail in User.objects.all():
             if loginPwd in User.objects.all():
                 return HttpResponse(json.dumps({'result':'signin_req'}))
             else:
                 return HttpResponse(json.dumps({'result': 'error_pwd'}))
         else:
-            return HttpResponse(json.dumps({'result':'error_id'}))
+            return HttpResponse(json.dumps({'result':'error_email'}))
