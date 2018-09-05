@@ -4,6 +4,7 @@ from django.db import models
 class Store(models.Model):
     storename = models.CharField(max_length=200)
     storeaddress = models.CharField(max_length=200)
+    storeregion = models.CharField(max_length=200, default="charField")
 
 
 class StoreReview(models.Model):
