@@ -16,15 +16,16 @@ import json
 @csrf_exempt
 def joinItself(request):
     if request.method == "POST":
-        userId = request.POST.get('userId')
         userName = request.POST.get('userName')
         userMail = request.POST.get('userMail')
+        userPwd = request.POST.get('userPwd')
         userAge = request.POST.get('userAge')
         userGender= request.POST.get('userGender')
         userRegion = request.POST.get('userRegion')
         userPhoneNumber = request.POST.get('userPhoneNumber')
-        userAccessToken = request.POST.get('userAccessToken')
-        user = User( userid = userId, name = userName, mail = userMail, age = userAge, gender = userGender, region = userRegion, phonenumber = userPhoneNumber, accesstoken_itself = userAccessToken)
+        userAccessToken // 랜덤생성
+        user = User( name = userName, mail = userMail, password=userPwd, age = userAge, gender = userGender, region = userRegion, phonenumber = userPhoneNumber)
+
         user.save()
         return HttpResponse(json.dumps({'result': 'signup'}))
 
