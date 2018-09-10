@@ -34,7 +34,6 @@ def joinItself(request):
 @csrf_exempt
 def joinKakao(request):
     if request.method == "POST":
-        userId = request.POST.get('userId')
         userName = request.POST.get('userName')
         userMail = request.POST.get('userMail')
         userAge = request.POST.get('userAge')
@@ -42,7 +41,7 @@ def joinKakao(request):
         userRegion = request.POST.get('userRegion')
         userPhoneNumber = request.POST.get('userPhoneNumber')
         userAccessToken = request.POST.get('userAccessToken')
-        user = User( userid = userId, name = userName, mail = userMail, age = userAge, gender = userGender, region = userRegion, phonenumber = userPhoneNumber, accesstoken_kakao = userAccessToken)
+        user = User( name = userName, mail = userMail, age = userAge, gender = userGender, region = userRegion, phonenumber = userPhoneNumber, accesstoken_kakao = userAccessToken)
         user.save()
         return HttpResponse(json.dumps({'result': 'signup'}))
 
@@ -52,7 +51,6 @@ def joinKakao(request):
 @csrf_exempt
 def joinFacebook(request):
     if request.method == "POST":
-        userId = request.POST.get('userId')
         userName = request.POST.get('userName')
         userMail = request.POST.get('userMail')
         userAge = request.POST.get('userAge')
@@ -60,7 +58,7 @@ def joinFacebook(request):
         userRegion = request.POST.get('userRegion')
         userPhoneNumber = request.POST.get('userPhoneNumber')
         userAccessToken = request.POST.get('userAccessToken')
-        user = User( userid = userId, name = userName, mail = userMail, age = userAge, gender = userGender, region = userRegion, phonenumber = userPhoneNumber, accesstoken_facebook = userAccessToken)
+        user = User( name = userName, mail = userMail, age = userAge, gender = userGender, region = userRegion, phonenumber = userPhoneNumber, accesstoken_facebook = userAccessToken)
         user.save()
         return HttpResponse(json.dumps({'result': 'signup'}))
 
@@ -70,7 +68,6 @@ def joinFacebook(request):
 @csrf_exempt
 def modify(request):
     if request.method == "POST":
-        userId = request.POST.get('userId')
         userName = request.POST.get('userName')
         userMail = request.POST.get('userMail')
         userAge = request.POST.get('userAge')
@@ -78,7 +75,7 @@ def modify(request):
         userGender= request.POST.get('userGender')
         userRegion = request.POST.get('userRegion')
 
-        user = User.objects.get(userid=userId)
+        user = User.objects.get(mail=userMail)
         user.name=userName
         user.mail=userMail
         user.age=userAge
@@ -90,3 +87,9 @@ def modify(request):
 
         return HttpResponse(json.dumps({'result': 'modify success'}))
 
+# 회원정보 검색 def
+@csrf_exempt
+def search(request):
+    if request.method == "POST":
+        userId = request.POST.get('userId')
+        return HttpResponse(json.dumps({'result': 'search success'}))

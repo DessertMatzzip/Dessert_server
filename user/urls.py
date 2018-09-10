@@ -5,8 +5,12 @@ urlpatterns = [
     path('follow/call', views.callFollow, name='callFollow'),
     path('follower/call', views.callFollower, name='callFollower'),
     path('collection/call', views.callCollection, name='callCollection'),
-    path('collection/storage', views.storageCollection, name='storageCollection'),
+    path('collection/delete', views.deleteCollection, name='deleteCollection'),
     path('collection/create', views.createCollection, name='createCollection'),
+    path('collection/list/call', views.callCollectionList, name='callCollectionList'),
+    path('collection/list/add', views.addCollectionList, name='addCollectionList'),
+    path('collection/list/delete', views.deleteCollectionList, name='deleteCollectionList'),
     path('store/call', views.callStoreList, name='callStoreList'),
     path('store/storage', views.storageStoreList, name='storageStoreList'),
+    path('store/delete', views.deleteStoreList, name='deleteStoreList'),
 ]

@@ -50,9 +50,9 @@ def callCollection(request):
         return HttpResponse(json.dumps({'result': 'testok'}))
 
 
-# 개인 컬렉션 리스트내 가게정보 저장하기(삭제하기)
+# 개인 컬렉션 리스트 삭제하rl
 @csrf_exempt
-def storageCollection(request):
+def deleteCollection(request):
     if request.method == "POST":
         return HttpResponse(json.dumps({'result': 'testok'}))
 
@@ -63,6 +63,26 @@ def createCollection(request):
     if request.method == "POST":
         return HttpResponse(json.dumps({'result': 'testok'}))
 
+# 컬렉션 내 가게리스트 불러오기
+@csrf_exempt
+def callCollectionList(request):
+    if request.method == "POST":
+        return HttpResponse(json.dumps({'result': 'testok'}))
+
+# 컬렉션 내 가게리스트 가게 추가하기
+@csrf_exempt
+def addCollectionList(request):
+    if request.method == "POST":
+        return HttpResponse(json.dumps({'result': 'testok'}))
+
+# 개인 컬렉션 리스트 생성하기
+@csrf_exempt
+def deleteCollectionList(request):
+    if request.method == "POST":
+        return HttpResponse(json.dumps({'result': 'testok'}))
+
+
+
 
 # 가고싶은 가게 리스트 불러오기
 @csrf_exempt
@@ -71,8 +91,14 @@ def callStoreList(request):
         return HttpResponse(json.dumps({'result': 'testok'}))
 
 
-# 가고싶은 가게 리스트 저장하기(삭제하기)
+# 가고싶은 가게 리스트 저장하기
 @csrf_exempt
 def storageStoreList(request):
+    if request.method == "POST":
+        return HttpResponse(json.dumps({'result': 'testok'}))
+
+# 가고싶은 가게 리스트 삭제하기
+@csrf_exempt
+def deleteStoreList(request):
     if request.method == "POST":
         return HttpResponse(json.dumps({'result': 'testok'}))

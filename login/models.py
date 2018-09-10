@@ -10,6 +10,7 @@ class User(models.Model):
     gender = models.CharField(max_length=10, default="charField")
     region = models.CharField(max_length=10, default="charField")
     phonenumber = models.IntegerField(default=0)
+    introduce = models.CharField(max_length=200, default="charField")
     accesstoken_facebook = models.CharField(max_length=200, default="charField")
     accesstoken_kakao = models.CharField(max_length=200, default="charField")
     accesstoken_itself = models.CharField(max_length=200, default="charField")
