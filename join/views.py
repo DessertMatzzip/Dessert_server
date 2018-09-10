@@ -90,3 +90,9 @@ def modify(request):
 
         return HttpResponse(json.dumps({'result': 'modify success'}))
 
+# 회원정보 검색 def
+@csrf_exempt
+def search(request):
+    if request.method == "POST":
+        userId = request.POST.get('userId')
+        return HttpResponse(json.dumps({'result': 'search success'}))
