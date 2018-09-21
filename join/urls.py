@@ -7,5 +7,5 @@ urlpatterns = [
     path('kakao', views.joinKakao, name='joinKakao'),
     path('facebook', views.joinFacebook, name='joinFacebook'),
     path('modify', views.modify, name='modify'),
-    path('search', views.modify, name='modify'),
+    path('search', views.search, name='search'),
 ]

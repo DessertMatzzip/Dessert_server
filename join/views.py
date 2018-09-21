@@ -2,6 +2,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from login.models import User
+from django.db.models import Q
 from django.views.decorators.csrf import csrf_exempt
 import json
 # Create your views here.
@@ -23,11 +24,12 @@ def joinItself(request):
         userGender= request.POST.get('userGender')
         userRegion = request.POST.get('userRegion')
         userPhoneNumber = request.POST.get('userPhoneNumber')
-        userAccessToken // 랜덤생성
-        user = User( name = userName, mail = userMail, password=userPwd, age = userAge, gender = userGender, region = userRegion, phonenumber = userPhoneNumber)
-
-        user.save()
-        return HttpResponse(json.dumps({'result': 'signup'}))
+        if User.objects.filter(mail=userMail).exists():
+            return HttpResponse(json.dumps({'result': 'mail duplicated'}))
+        else:
+            user = User( name = userName, mail = userMail, password=userPwd, age = userAge, gender = userGender, region = userRegion, phonenumber = userPhoneNumber)
+            user.save()
+            return HttpResponse(json.dumps({'result': 'signup'}))
 
 
 # 카카오톡 회원등록 join def
@@ -41,6 +43,8 @@ def joinKakao(request):
         userRegion = request.POST.get('userRegion')
         userPhoneNumber = request.POST.get('userPhoneNumber')
         userAccessToken = request.POST.get('userAccessToken')
+        if User.objects.filter(mail=userMail).exists():
+            return HttpResponse(json.dumps({'result': 'mail duplicated'}))
         user = User( name = userName, mail = userMail, age = userAge, gender = userGender, region = userRegion, phonenumber = userPhoneNumber, accesstoken_kakao = userAccessToken)
         user.save()
         return HttpResponse(json.dumps({'result': 'signup'}))
@@ -67,24 +71,40 @@ def joinFacebook(request):
 # 회원정보 수정 def
 @csrf_exempt
 def modify(request):
-    if request.method == "POST":
+    if request.method == "GET":
+        userAccessToken = request.GET.get('userAccessToken')
+        user = User.objects.filter(Q(accesstoken_itself=userAccessToken)|Q(accesstoken_kakao=userAccessToken)|Q(accesstoken_facebook=userAccessToken))
+        return HttpResponse(json.dumps({'result': {
+            'name': user.name,
+            'age': user.age,
+            'mail': user.mail,
+            'password': user.password,
+            'gender': user.gender,
+            'region': user.region,
+            'phonenumber': user.phonenumber,
+            'introduce': user.introduce,
+        }}))
+
+    elif request.method == "POST":
         userName = request.POST.get('userName')
         userMail = request.POST.get('userMail')
         userAge = request.POST.get('userAge')
+        userPwd = request.POST.get('userPwd')
         userPhoneNumber = request.POST.get('userPhoneNumber')
         userGender= request.POST.get('userGender')
         userRegion = request.POST.get('userRegion')
+        userIntroduce = request.POST.get('userIntroduce')
 
         user = User.objects.get(mail=userMail)
+        user.password=userPwd
         user.name=userName
         user.mail=userMail
         user.age=userAge
         user.phonenumber=userPhoneNumber
         user.region=userRegion
-        user.Gender=userGender
-
+        user.gender=userGender
+        user.introduce=userIntroduce
         user.save()
-
         return HttpResponse(json.dumps({'result': 'modify success'}))
 
 # 회원정보 검색 def
