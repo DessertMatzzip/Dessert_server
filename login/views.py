@@ -2,6 +2,8 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from .models import User
+from random import *
+from string import *
 from django.views.decorators.csrf import csrf_exempt
 import json
 # Create your views here.
@@ -20,7 +22,7 @@ import json
 def loginFacebook(request):
     if request.method == "POST":
         accessToken = request.POST.get('accessToken')
-        if accessToken in User.objects.all():
+        if User.objects.filter(accesstoken_facebook=accessToken).exists():
             return HttpResponse(json.dumps({'result': 'signin_req'}))
         else:
             return HttpResponse(json.dumps({'result': 'signup_req'}))
@@ -31,7 +33,7 @@ def loginFacebook(request):
 def loginKakao(request):
     if request.method == "POST":
         accessToken = request.POST.get('accessToken')
-        if accessToken in User.objects.all():
+        if User.objects.filter(accesstoken_kakao=accessToken).exists():
             return HttpResponse(json.dumps({'result': 'signin_req'}))
         else:
             return HttpResponse(json.dumps({'result': 'signup_req'}))
@@ -43,10 +45,21 @@ def loginItself(request):
     if request.method == "POST":
         mail = request.POST.get('loginEmail')
         password = request.POST.get('loginPwd')
-        if mail in User.objects.all():
-            if password in User.objects.all():
+        if User.objects.filter(mail=mail).exists():
+            if User.objects.filter(password=password).exists():
                 return HttpResponse(json.dumps({'result':'signin_req'}))
             else:
                 return HttpResponse(json.dumps({'result': 'error_pwd'}))
         else:
             return HttpResponse(json.dumps({'result':'error_email'}))
+    elif request.method =="GET":
+        accesstoken = request.POST.get('userAccessToken')
+        import string, random
+        passkey = ''
+        for x in range(10):
+            if random.choice([1, 2]) == 1:
+                passkey += passkey.join(random.choice(string.ascii_letters))
+            else:
+                passkey += passkey.join(random.choice(string.digits))
+            accesstoken = passkey
+        return HttpResponse(json.dumps({'result': passkey}))
