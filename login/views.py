@@ -44,7 +44,7 @@ def loginItself(request):
         mail = request.POST.get('loginEmail')
         password = request.POST.get('loginPwd')
         if mail in User.objects.all():
-            if loginPwd in User.objects.all():
+            if password in User.objects.all():
                 return HttpResponse(json.dumps({'result':'signin_req'}))
             else:
                 return HttpResponse(json.dumps({'result': 'error_pwd'}))
