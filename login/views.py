@@ -53,7 +53,7 @@ def loginItself(request):
         else:
             return HttpResponse(json.dumps({'result':'error_email'}))
     elif request.method =="GET":
-        accesstoken = request.POST.get('userAccessToken')
+        accesstoken = request.GET.get('userAccessToken')
         import string, random
         passkey = ''
         for x in range(10):
@@ -61,5 +61,6 @@ def loginItself(request):
                 passkey += passkey.join(random.choice(string.ascii_letters))
             else:
                 passkey += passkey.join(random.choice(string.digits))
-            accesstoken = passkey
+        user = User(accesstoken_itself=passkey)
+        user.save()
         return HttpResponse(json.dumps({'result': passkey}))

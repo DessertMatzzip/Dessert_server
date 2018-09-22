@@ -73,17 +73,51 @@ def joinFacebook(request):
 def modify(request):
     if request.method == "GET":
         userAccessToken = request.GET.get('userAccessToken')
-        user = User.objects.filter(Q(accesstoken_itself=userAccessToken)|Q(accesstoken_kakao=userAccessToken)|Q(accesstoken_facebook=userAccessToken))
-        return HttpResponse(json.dumps({'result': {
-            'name': user.name,
-            'age': user.age,
-            'mail': user.mail,
-            'password': user.password,
-            'gender': user.gender,
-            'region': user.region,
-            'phonenumber': user.phonenumber,
-            'introduce': user.introduce,
-        }}))
+        a
+        # 자체 액세스 토큰
+        if User.objects.filter(accesstoken_itself=userAccessToken).exists():
+            user = User.objects.get(accesstoken_itself=userAccessToken)
+            return HttpResponse(json.dumps({'result': {
+                'name': user.name,
+                'age': user.age,
+                'mail': user.mail,
+                'password': user.password,
+                'gender': user.gender,
+                'region': user.region,
+                'phonenumber': user.phonenumber,
+                'introduce': user.introduce,
+            }}))
+
+        # 카카오 액세스 토큰
+        elif User.objects.filter(accesstoken_kakao=userAccessToken).exists():
+            user = User.objects.get(accesstoken_kakao=userAccessToken)
+            return HttpResponse(json.dumps({'result': {
+                'name': user.name,
+                'age': user.age,
+                'mail': user.mail,
+                'password': user.password,
+                'gender': user.gender,
+                'region': user.region,
+                'phonenumber': user.phonenumber,
+                'introduce': user.introduce,
+            }}))
+
+        # 페이스북 액세스 토큰
+        elif User.objects.filter(accesstoken_facebook=userAccessToken).exists():
+            user = User.objects.get(accesstoken_facebook=userAccessToken)
+            return HttpResponse(json.dumps({'result': {
+                'name': user.name,
+                'age': user.age,
+                'mail': user.mail,
+                'password': user.password,
+                'gender': user.gender,
+                'region': user.region,
+                'phonenumber': user.phonenumber,
+                'introduce': user.introduce,
+            }}))
+
+        else:
+            return HttpResponse(json.dumps({'result': 'accesstoken error'}))
 
     elif request.method == "POST":
         userName = request.POST.get('userName')
