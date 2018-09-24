@@ -73,7 +73,6 @@ def joinFacebook(request):
 def modify(request):
     if request.method == "GET":
         userAccessToken = request.GET.get('userAccessToken')
-        a
         # 자체 액세스 토큰
         if User.objects.filter(accesstoken_itself=userAccessToken).exists():
             user = User.objects.get(accesstoken_itself=userAccessToken)
@@ -144,6 +143,18 @@ def modify(request):
 # 회원정보 검색 def
 @csrf_exempt
 def search(request):
-    if request.method == "POST":
-        userId = request.POST.get('userId')
-        return HttpResponse(json.dumps({'result': 'search success'}))
+    if request.method == "GET":
+        listUser = []
+        userName = request.GET.get('userName')
+        user_set = User.objects.filter(name = userName)
+        for user in user_set:
+            listUser.append(user.name)
+            listUser.append(user.age)
+            listUser.append(user.gender)
+            listUser.append(user.region)
+        return HttpResponse(json.dumps({'result': {
+            'name': listUser[0],
+            'age': listUser[1],
+            'gender': listUser[2],
+            'region': listUser[3]
+        }}))
