@@ -9,6 +9,14 @@
 
 - dessertServer : django project
 
+- login : 로그인에 관한 app
+
+- join : 회원 가입에 관한 app
+
+- store : 가게점포에 관한 app
+
+- user : 회원 정보에 관한 app
+
 - login : 회원 로그인을 위한 앱(페이스북, 카카오톡 연동로그인 + 자체로그인)
 
 - join : 회원가입과 회원정보 수정을 위한 앱
