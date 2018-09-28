@@ -7,7 +7,13 @@
 
 - dessertServer : django project
 
-- login : django app for kakaotalk, facebook login
+- login : 로그인에 관한 app
+
+- join : 회원 가입에 관한 app
+
+- store : 가게점포에 관한 app
+
+- user : 회원 정보에 관한 app
 
 - screenshots : 진행상황을 표시하기 위한 이미지 저장 폴더
 
