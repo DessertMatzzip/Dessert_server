@@ -71,6 +71,7 @@ def joinFacebook(request):
 # 회원정보 수정 def
 @csrf_exempt
 def modify(request):
+    # 회원정보 수정전 정보 뿌려주기(get)
     if request.method == "GET":
         userAccessToken = request.GET.get('userAccessToken')
         # 자체 액세스 토큰
@@ -116,8 +117,9 @@ def modify(request):
             }}))
 
         else:
-            return HttpResponse(json.dumps({'result': 'accesstoken error'}))
+            return HttpResponse(json.dumps({'result': 'error_token'}))
 
+    # 회원정보 수정(post)
     elif request.method == "POST":
         userName = request.POST.get('userName')
         userMail = request.POST.get('userMail')
@@ -139,6 +141,7 @@ def modify(request):
         user.introduce=userIntroduce
         user.save()
         return HttpResponse(json.dumps({'result': 'modify success'}))
+
 
 # 회원정보 검색 def
 @csrf_exempt
