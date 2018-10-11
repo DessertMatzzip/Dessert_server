@@ -147,7 +147,7 @@ def modify(request):
 @csrf_exempt
 def search(request):
     if request.method == "GET":
-        listUser = []
+        listUser = [[]]
         userName = request.GET.get('userName')
         user_set = User.objects.filter(name = userName)
         for user in user_set:
@@ -155,9 +155,11 @@ def search(request):
             listUser.append(user.age)
             listUser.append(user.gender)
             listUser.append(user.region)
-        return HttpResponse(json.dumps({'result': {
-            'name': listUser[0],
-            'age': listUser[1],
-            'gender': listUser[2],
-            'region': listUser[3]
+
+        for user in listUser:
+            return HttpResponse(json.dumps({'result': {
+            'name': user[[0]],
+            'age': user[[1]],
+            'gender': user[[2]],
+            'region': user[[3]]
         }}))
