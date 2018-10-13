@@ -147,19 +147,18 @@ def modify(request):
 @csrf_exempt
 def search(request):
     if request.method == "GET":
-        listUser = [[]]
+        # user data가 담길 배열
+        listUser = []
         userName = request.GET.get('userName')
+        # 해당 userName을 갖는 objects를 user_set이라 함.
         user_set = User.objects.filter(name = userName)
+        #  user_set의 name, age, gender, region을 배열에 밀어 넣음
         for user in user_set:
             listUser.append(user.name)
             listUser.append(user.age)
             listUser.append(user.gender)
             listUser.append(user.region)
+            # user간 구분을 위해 특수문자 # 삽입(split할 것)
+            listUser.append('#')
 
-        for user in listUser:
-            return HttpResponse(json.dumps({'result': {
-            'name': user[[0]],
-            'age': user[[1]],
-            'gender': user[[2]],
-            'region': user[[3]]
-        }}))
+        return HttpResponse(json.dumps({'result': listUser }))
