@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 from django.shortcuts import render
 from django.http import HttpResponse
+from .models import Store
+from .models import StoreReview
+from .models import StoreShutdown
 from django.views.decorators.csrf import csrf_exempt
 import json
 # Create your views here.
@@ -21,8 +24,75 @@ import json
 # 가게 데이터 불러오기
 @csrf_exempt
 def callStore(request):
-    if request.method == "POST":
-        return HttpResponse(json.dumps({'result': 'testok'}))
+    if request.method == "GET":
+
+        listStore = []
+
+        storeName = request.GET.get('storeName')
+        storeRegion = request.GET.get('storeRegion')
+        storeReviewPoint = request.GET.get('storeReviewPoint')
+
+        # storeRegion의 입력값이 있음. 또한 리뷰순을 역순서 필터적용
+        if storeRegion != null & storeReviewPoint == 1:
+            store_set = Store.objects.filter(storename=storeName).orderby('-storepoint').filter(storeregion=storeRegion)
+            for store in store_set:
+                listStore.append(store.storename)
+                listStore.append(store.storeaddress)
+                listStore.append(store.storeregion)
+                listStore.append(store.storepoint)
+                listStore.append(store.storelatitude)
+                listStore.append(store.storelongitude)
+                # store간 구분을 위해 특수문자 # 삽입(split할 것)
+                listUser.append('#')
+
+            return HttpResponse(json.dumps({'result': listStore}))
+
+        # storeRegion 입력값이 있으면서 리뷰순을 역순으로 설정했을 떄.
+        elif storeRegion != null | storeReviewPoint == 0:
+            store_set = Store.objects.filter(storename=storeName).orderby('storepoint').filter(storeregion=storeRegion)
+            for store in store_set:
+                listStore.append(store.storename)
+                listStore.append(store.storeaddress)
+                listStore.append(store.storeregion)
+                listStore.append(store.storepoint)
+                listStore.append(store.storelatitude)
+                listStore.append(store.storelongitude)
+                # store간 구분을 위해 특수문자 # 삽입(split할 것)
+                listUser.append('#')
+
+            return HttpResponse(json.dumps({'result': listStore}))
+
+        # storeRegion 입력값이 없으면서 역순 설정
+        elif storeRegion == null & storeReviewPoint == 1:
+            store_set = Store.objects.filter(storename=storeName).orderby('-storepoint')
+            for store in store_set:
+                listStore.append(store.storename)
+                listStore.append(store.storeaddress)
+                listStore.append(store.storeregion)
+                listStore.append(store.storepoint)
+                listStore.append(store.storelatitude)
+                listStore.append(store.storelongitude)
+                # store간 구분을 위해 특수문자 # 삽입(split할 것)
+                listUser.append('#')
+
+            return HttpResponse(json.dumps({'result': listStore}))
+
+        # storeRegion 입력값이 없음.
+        elif storeRegion == null & storeReviewPoint == 0:
+            store_set = Store.objects.filter(storename=storeName).orderby('storepoint')
+            for store in store_set:
+                listStore.append(store.storename)
+                listStore.append(store.storeaddress)
+                listStore.append(store.storeregion)
+                listStore.append(store.storepoint)
+                listStore.append(store.storelatitude)
+                listStore.append(store.storelongitude)
+                # store간 구분을 위해 특수문자 # 삽입(split할 것)
+                listUser.append('#')
+
+            return HttpResponse(json.dumps({'result': listStore}))
+
+
 
 
 # 가게 데이터 수정(요청받기)
