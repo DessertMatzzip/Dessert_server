@@ -33,8 +33,8 @@ def callStore(request):
         storeReviewPoint = request.GET.get('storeReviewPoint')
 
         # storeRegion의 입력값이 있음. 또한 리뷰순을 역순서 필터적용
-        if storeRegion != null & storeReviewPoint == 1:
-            store_set = Store.objects.filter(storename=storeName).orderby('-storepoint').filter(storeregion=storeRegion)
+        if storeRegion != "" and storeReviewPoint == 1:
+            store_set = Store.objects.filter(storename=storeName).filter(storeregion=storeRegion).order_by('-storepoint')
             for store in store_set:
                 listStore.append(store.storename)
                 listStore.append(store.storeaddress)
@@ -43,13 +43,13 @@ def callStore(request):
                 listStore.append(store.storelatitude)
                 listStore.append(store.storelongitude)
                 # store간 구분을 위해 특수문자 # 삽입(split할 것)
-                listUser.append('#')
+                listStore.append('#')
 
             return HttpResponse(json.dumps({'result': listStore}))
 
-        # storeRegion 입력값이 있으면서 리뷰순을 역순으로 설정했을 떄.
-        elif storeRegion != null | storeReviewPoint == 0:
-            store_set = Store.objects.filter(storename=storeName).orderby('storepoint').filter(storeregion=storeRegion)
+        # storeRegion 입력값이 있으면서 리뷰순을 정순으로 설정했을 떄.
+        elif storeRegion != "" or storeReviewPoint == 0:
+            store_set = Store.objects.filter(storename=storeName).filter(storeregion=storeRegion).order_by('storepoint')
             for store in store_set:
                 listStore.append(store.storename)
                 listStore.append(store.storeaddress)
@@ -58,13 +58,13 @@ def callStore(request):
                 listStore.append(store.storelatitude)
                 listStore.append(store.storelongitude)
                 # store간 구분을 위해 특수문자 # 삽입(split할 것)
-                listUser.append('#')
+                listStore.append('#')
 
             return HttpResponse(json.dumps({'result': listStore}))
 
         # storeRegion 입력값이 없으면서 역순 설정
-        elif storeRegion == null & storeReviewPoint == 1:
-            store_set = Store.objects.filter(storename=storeName).orderby('-storepoint')
+        elif storeRegion == "" and storeReviewPoint == 1:
+            store_set = Store.objects.filter(storename=storeName).order_by('-storepoint')
             for store in store_set:
                 listStore.append(store.storename)
                 listStore.append(store.storeaddress)
@@ -73,13 +73,13 @@ def callStore(request):
                 listStore.append(store.storelatitude)
                 listStore.append(store.storelongitude)
                 # store간 구분을 위해 특수문자 # 삽입(split할 것)
-                listUser.append('#')
+                listStore.append('#')
 
             return HttpResponse(json.dumps({'result': listStore}))
 
-        # storeRegion 입력값이 없음.
-        elif storeRegion == null & storeReviewPoint == 0:
-            store_set = Store.objects.filter(storename=storeName).orderby('storepoint')
+        # storeRegion 입력값이 없음. 리뷰순이 설정됐거나 기본
+        elif storeRegion == "" or storeReviewPoint == 0:
+            store_set = Store.objects.filter(storename=storeName).order_by('storepoint')
             for store in store_set:
                 listStore.append(store.storename)
                 listStore.append(store.storeaddress)
@@ -88,7 +88,7 @@ def callStore(request):
                 listStore.append(store.storelatitude)
                 listStore.append(store.storelongitude)
                 # store간 구분을 위해 특수문자 # 삽입(split할 것)
-                listUser.append('#')
+                listStore.append('#')
 
             return HttpResponse(json.dumps({'result': listStore}))
 
@@ -114,3 +114,18 @@ def commentStore(request):
 def shutdownStore(request):
     if request.method == "POST":
         return HttpResponse(json.dumps({'result': 'testok'}))
+
+
+@csrf_exempt
+def addStore(request):
+    if request.method == "POST":
+        storeName = request.POST.get('storeName')
+        storeAddress = request.POST.get('storeAddress')
+        storeRegion = request.POST.get('storeRegion')
+        storePoint = request.POST.get('storePoint')
+        storeLatitude = request.POST.get('storeLatitude')
+        storeLongitude = request.POST.get('storeLongitude')
+
+        store = Store( storename = storeName, storeaddress = storeAddress, storeregion = storeRegion, storepoint = storePoint, storelatitude = storeLatitude, storelongitude = storeLongitude)
+        store.save()
+        return HttpResponse(json.dumps({'result': 'insert_ok'}))
