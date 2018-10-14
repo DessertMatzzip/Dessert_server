@@ -140,7 +140,7 @@ def modify(request):
         user.gender=userGender
         user.introduce=userIntroduce
         user.save()
-        return HttpResponse(json.dumps({'result': 'modify success'}))
+        return HttpResponse(json.dumps({'result': 'modify_success'}))
 
 
 # 회원정보 검색 def
