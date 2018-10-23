@@ -4,6 +4,7 @@ from django.http import HttpResponse
 from .models import Store
 from .models import StoreReview
 from .models import StoreShutdown
+from login.models import User
 from django.views.decorators.csrf import csrf_exempt
 import json
 # Create your views here.
@@ -36,6 +37,7 @@ def callStore(request):
         if storeRegion != "" and storeReviewPoint == 1:
             store_set = Store.objects.filter(storename=storeName).filter(storeregion=storeRegion).order_by('-storepoint')
             for store in store_set:
+                listStore.append(store.id)
                 listStore.append(store.storename)
                 listStore.append(store.storeaddress)
                 listStore.append(store.storeregion)
@@ -51,6 +53,7 @@ def callStore(request):
         elif storeRegion != "" or storeReviewPoint == 0:
             store_set = Store.objects.filter(storename=storeName).filter(storeregion=storeRegion).order_by('storepoint')
             for store in store_set:
+                listStore.append(store.id)
                 listStore.append(store.storename)
                 listStore.append(store.storeaddress)
                 listStore.append(store.storeregion)
@@ -66,6 +69,7 @@ def callStore(request):
         elif storeRegion == "" and storeReviewPoint == 1:
             store_set = Store.objects.filter(storename=storeName).order_by('-storepoint')
             for store in store_set:
+                listStore.append(store.id)
                 listStore.append(store.storename)
                 listStore.append(store.storeaddress)
                 listStore.append(store.storeregion)
@@ -81,6 +85,7 @@ def callStore(request):
         elif storeRegion == "" or storeReviewPoint == 0:
             store_set = Store.objects.filter(storename=storeName).order_by('storepoint')
             for store in store_set:
+                listStore.append(store.id)
                 listStore.append(store.storename)
                 listStore.append(store.storeaddress)
                 listStore.append(store.storeregion)
@@ -106,6 +111,21 @@ def modifyStore(request):
 @csrf_exempt
 def commentStore(request):
     if request.method == "POST":
+        userMail = request.POST.get('UserMail')
+        storeId = request.POST.get('storeId')
+        storeReview = request.POST.get('storeReview')
+        storePoint = request.POST.get('storePoint')
+
+        #받은 리뷰어의 메일과 같은 유저의 고유키를 USER db에서 꺼내옴
+        reviewer = User.objects.filter(mail=userMail)
+
+        storereview = StoreReview(review = storeReview, storeid_id = storeId, userid_id = reviewer.id, storepoint = storePoint)
+        storereview.save()
+
+        return HttpResponse(json.dumps({'result': 'review_success'}))
+
+    elif request.method == "GET":
+
         return HttpResponse(json.dumps({'result': 'testok'}))
 
 

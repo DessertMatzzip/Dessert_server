@@ -15,7 +15,7 @@ class StoreReview(models.Model):
     storeid = models.ForeignKey(Store, on_delete=models.CASCADE)
     review = models.CharField(max_length=200)
     storepoint = models.CharField(max_length=200, default="0")
-    userid = models.ForeignKey(User, on_delete=models.CASCADE, default=999)
+    userid = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
 
 class StoreShutdown(models.Model):
     userid = models.ForeignKey(User, on_delete=models.CASCADE)
