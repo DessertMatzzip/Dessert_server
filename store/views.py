@@ -36,6 +36,7 @@ def callStore(request):
         if storeRegion != "" and storeReviewPoint == 1:
             store_set = Store.objects.filter(storename=storeName).filter(storeregion=storeRegion).order_by('-storepoint')
             for store in store_set:
+                listStore.append(store.id)
                 listStore.append(store.storename)
                 listStore.append(store.storeaddress)
                 listStore.append(store.storeregion)
@@ -51,6 +52,7 @@ def callStore(request):
         elif storeRegion != "" or storeReviewPoint == 0:
             store_set = Store.objects.filter(storename=storeName).filter(storeregion=storeRegion).order_by('storepoint')
             for store in store_set:
+                listStore.append(store.id)
                 listStore.append(store.storename)
                 listStore.append(store.storeaddress)
                 listStore.append(store.storeregion)
@@ -66,6 +68,7 @@ def callStore(request):
         elif storeRegion == "" and storeReviewPoint == 1:
             store_set = Store.objects.filter(storename=storeName).order_by('-storepoint')
             for store in store_set:
+                listStore.append(store.id)
                 listStore.append(store.storename)
                 listStore.append(store.storeaddress)
                 listStore.append(store.storeregion)
@@ -81,6 +84,7 @@ def callStore(request):
         elif storeRegion == "" or storeReviewPoint == 0:
             store_set = Store.objects.filter(storename=storeName).order_by('storepoint')
             for store in store_set:
+                listStore.append(store.id)
                 listStore.append(store.storename)
                 listStore.append(store.storeaddress)
                 listStore.append(store.storeregion)
