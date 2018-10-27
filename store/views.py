@@ -122,6 +122,9 @@ def commentStore(request):
         storereview = StoreReview(review = storeReview, storeid_id = storeId, userid_id = reviewer.id, storepoint = storePoint)
         storereview.save()
 
+        ## reviewer.id 가 쿼리셋에 없다고 나옴 --> 해당 내용 해결해야함
+
+
         return HttpResponse(json.dumps({'result': 'review_success'}))
 
     elif request.method == "GET":
