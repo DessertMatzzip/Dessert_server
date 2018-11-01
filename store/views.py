@@ -31,11 +31,13 @@ def callStore(request):
 
         storeName = request.GET.get('storeName')
         storeRegion = request.GET.get('storeRegion')
+        # storeReviewPoint값이 1일 경우 역순, 0일 경우 정순서로 배열이 출력됨
+        # storeReviewPoint값을 주지 않을 경우 정순으로 기본 설정
         storeReviewPoint = request.GET.get('storeReviewPoint')
 
         # storeRegion의 입력값이 있음. 또한 리뷰순을 역순서 필터적용
-        if storeRegion != "" and storeReviewPoint == 1:
-            store_set = Store.objects.filter(storename=storeName).filter(storeregion=storeRegion).order_by('storepoint')
+        if storeRegion != "" and storeReviewPoint == "1":
+            store_set = Store.objects.filter(storename=storeName).order_by('storepoint')
             for store in store_set:
                 listStore.append(store.id)
                 listStore.append(store.storename)
@@ -50,8 +52,8 @@ def callStore(request):
             return HttpResponse(json.dumps({'result': listStore}))
 
         # storeRegion 입력값이 있으면서 리뷰순을 정순으로 설정했을 떄.
-        elif storeRegion != "" or storeReviewPoint == 0:
-            store_set = Store.objects.filter(storename=storeName).filter(storeregion=storeRegion).order_by('-storepoint')
+        elif storeRegion != "" or storeReviewPoint == "0":
+            store_set = Store.objects.filter(storename=storeName, storeregion=storeRegion).order_by('-storepoint')
             for store in store_set:
                 listStore.append(store.id)
                 listStore.append(store.storename)
@@ -66,7 +68,7 @@ def callStore(request):
             return HttpResponse(json.dumps({'result': listStore}))
 
         # storeRegion 입력값이 없으면서 역순 설정
-        elif storeRegion == "" and storeReviewPoint == 1:
+        elif storeRegion == "" and storeReviewPoint == "1":
             store_set = Store.objects.filter(storename=storeName).order_by('storepoint')
             for store in store_set:
                 listStore.append(store.id)
@@ -82,7 +84,7 @@ def callStore(request):
             return HttpResponse(json.dumps({'result': listStore}))
 
         # storeRegion 입력값이 없음. 리뷰순이 설정됐거나 기본
-        elif storeRegion == "" or storeReviewPoint == 0:
+        elif storeRegion == "" and storeReviewPoint == "0":
             store_set = Store.objects.filter(storename=storeName).order_by('-storepoint')
             for store in store_set:
                 listStore.append(store.id)
@@ -111,32 +113,52 @@ def modifyStore(request):
 @csrf_exempt
 def commentStore(request):
     if request.method == "POST":
-        userMail = request.POST.get('UserMail')
+        userMail = request.POST.get('userMail')
         storeId = request.POST.get('storeId')
         storeReview = request.POST.get('storeReview')
         storePoint = request.POST.get('storePoint')
 
         #받은 리뷰어의 메일과 같은 유저의 고유키를 USER db에서 꺼내옴
-        reviewer = User.objects.filter(mail=userMail)
+        reviewer = User.objects.get(mail=userMail)
+        reviewerId = reviewer.id
 
-        storereview = StoreReview(review = storeReview, storeid_id = storeId, userid_id = reviewer.id, storepoint = storePoint)
+        storereview = StoreReview(review = storeReview, storeid_id = storeId, userid_id = reviewerId, storepoint = storePoint)
         storereview.save()
-
-        ## reviewer.id 가 쿼리셋에 없다고 나옴 --> 해당 내용 해결해야함
-
 
         return HttpResponse(json.dumps({'result': 'review_success'}))
 
     elif request.method == "GET":
+        reviews = []
+        storeId = request.GET.get('storeId')
+        review_set = StoreReview.objects.filter(storeid_id=storeId)
 
-        return HttpResponse(json.dumps({'result': 'testok'}))
+        for review in review_set:
+            userData = User.objects.get(id=review.userid_id)
+            # userid_id를 통해 User테이블의 user 닉네임을 배열에 append하여야 함
+            reviews.append(userData.name)
+            reviews.append(review.review)
+            reviews.append(review.storepoint)
+            # 리뷰간 구분을 위한 구분자 '#'
+            reviews.append('#')
+
+        return HttpResponse(json.dumps({'result': reviews}))
 
 
 # 가게가 사라졌어요 사용자 요청받기
 @csrf_exempt
 def shutdownStore(request):
     if request.method == "POST":
-        return HttpResponse(json.dumps({'result': 'testok'}))
+        userMail = request.POST.get("userMail")
+        storeId = request.POST.get("storeId")
+        shutdownReview = request.POST.get("shutdownReview")
+
+        user = User.objects.get(mail=userMail)
+        userId = user.id
+
+        storeShutdown = StoreShutdown(review=shutdownReview, storeid_id=storeId, userid_id=userId)
+        storeShutdown.save()
+
+        return HttpResponse(json.dumps({'result': 'shutdown_request_success'}))
 
 # 가게 정보 추가하기(수정하기)
 @csrf_exempt
