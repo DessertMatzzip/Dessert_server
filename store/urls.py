@@ -7,4 +7,5 @@ urlpatterns = [
     path('comment', views.commentStore, name='commentStore'),
     path('shutdown', views.shutdownStore, name='shutdownStore'),
     path('add', views.addStore, name='addStore'),
+    path('select', views.selectRegion, name='selectRegion'),
 ]

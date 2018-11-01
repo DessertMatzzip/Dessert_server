@@ -35,7 +35,7 @@ def callStore(request):
 
         # storeRegion의 입력값이 있음. 또한 리뷰순을 역순서 필터적용
         if storeRegion != "" and storeReviewPoint == 1:
-            store_set = Store.objects.filter(storename=storeName).filter(storeregion=storeRegion).order_by('-storepoint')
+            store_set = Store.objects.filter(storename=storeName).filter(storeregion=storeRegion).order_by('storepoint')
             for store in store_set:
                 listStore.append(store.id)
                 listStore.append(store.storename)
@@ -51,7 +51,7 @@ def callStore(request):
 
         # storeRegion 입력값이 있으면서 리뷰순을 정순으로 설정했을 떄.
         elif storeRegion != "" or storeReviewPoint == 0:
-            store_set = Store.objects.filter(storename=storeName).filter(storeregion=storeRegion).order_by('storepoint')
+            store_set = Store.objects.filter(storename=storeName).filter(storeregion=storeRegion).order_by('-storepoint')
             for store in store_set:
                 listStore.append(store.id)
                 listStore.append(store.storename)
@@ -67,7 +67,7 @@ def callStore(request):
 
         # storeRegion 입력값이 없으면서 역순 설정
         elif storeRegion == "" and storeReviewPoint == 1:
-            store_set = Store.objects.filter(storename=storeName).order_by('-storepoint')
+            store_set = Store.objects.filter(storename=storeName).order_by('storepoint')
             for store in store_set:
                 listStore.append(store.id)
                 listStore.append(store.storename)
@@ -83,7 +83,7 @@ def callStore(request):
 
         # storeRegion 입력값이 없음. 리뷰순이 설정됐거나 기본
         elif storeRegion == "" or storeReviewPoint == 0:
-            store_set = Store.objects.filter(storename=storeName).order_by('storepoint')
+            store_set = Store.objects.filter(storename=storeName).order_by('-storepoint')
             for store in store_set:
                 listStore.append(store.id)
                 listStore.append(store.storename)
@@ -138,7 +138,7 @@ def shutdownStore(request):
     if request.method == "POST":
         return HttpResponse(json.dumps({'result': 'testok'}))
 
-
+# 가게 정보 추가하기(수정하기)
 @csrf_exempt
 def addStore(request):
     if request.method == "POST":
@@ -152,3 +152,29 @@ def addStore(request):
         store = Store( storename = storeName, storeaddress = storeAddress, storeregion = storeRegion, storepoint = storePoint, storelatitude = storeLatitude, storelongitude = storeLongitude)
         store.save()
         return HttpResponse(json.dumps({'result': 'insert_ok'}))
+
+
+# 선택 지역 가게 리스트 불러오기
+@csrf_exempt
+def selectRegion(request):
+    if request.method == "GET":
+        listStore = []
+
+        storeRegion = request.GET.get('storeRegion')
+
+        # storepoint가 높은 순으로 출력됨
+        store_set = Store.objects.filter(storeregion=storeRegion).order_by(
+                '-storepoint')
+
+        for store in store_set:
+            listStore.append(store.id)
+            listStore.append(store.storename)
+            listStore.append(store.storeaddress)
+            listStore.append(store.storeregion)
+            listStore.append(store.storepoint)
+            listStore.append(store.storelatitude)
+            listStore.append(store.storelongitude)
+            # store간 구분을 위해 특수문자 # 삽입(split할 것)
+            listStore.append('#')
+
+        return HttpResponse(json.dumps({'result': listStore}))
