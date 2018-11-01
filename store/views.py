@@ -148,7 +148,17 @@ def commentStore(request):
 @csrf_exempt
 def shutdownStore(request):
     if request.method == "POST":
-        return HttpResponse(json.dumps({'result': 'testok'}))
+        userMail = request.POST.get("userMail")
+        storeId = request.POST.get("storeId")
+        shutdownReview = request.POST.get("shutdownReview")
+
+        user = User.objects.get(mail=userMail)
+        userId = user.id
+
+        storeShutdown = StoreShutdown(review=shutdownReview, storeid_id=storeId, userid_id=userId)
+        storeShutdown.save()
+
+        return HttpResponse(json.dumps({'result': 'shutdown_request_success'}))
 
 # 가게 정보 추가하기(수정하기)
 @csrf_exempt
