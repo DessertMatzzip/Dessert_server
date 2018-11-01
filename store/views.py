@@ -113,25 +113,35 @@ def modifyStore(request):
 @csrf_exempt
 def commentStore(request):
     if request.method == "POST":
-        userMail = request.POST.get('UserMail')
+        userMail = request.POST.get('userMail')
         storeId = request.POST.get('storeId')
         storeReview = request.POST.get('storeReview')
         storePoint = request.POST.get('storePoint')
 
         #받은 리뷰어의 메일과 같은 유저의 고유키를 USER db에서 꺼내옴
-        reviewer = User.objects.filter(mail=userMail)
+        reviewer = User.objects.get(mail=userMail)
+        reviewerId = reviewer.id
 
-        storereview = StoreReview(review = storeReview, storeid_id = storeId, userid_id = reviewer.id, storepoint = storePoint)
+        storereview = StoreReview(review = storeReview, storeid_id = storeId, userid_id = reviewerId, storepoint = storePoint)
         storereview.save()
-
-        ## reviewer.id 가 쿼리셋에 없다고 나옴 --> 해당 내용 해결해야함
-
 
         return HttpResponse(json.dumps({'result': 'review_success'}))
 
     elif request.method == "GET":
+        reviews = []
+        storeId = request.GET.get('storeId')
+        review_set = StoreReview.objects.filter(storeid_id=storeId)
 
-        return HttpResponse(json.dumps({'result': 'testok'}))
+        for review in review_set:
+            userData = User.objects.get(id=review.userid_id)
+            # userid_id를 통해 User테이블의 user 닉네임을 배열에 append하여야 함
+            reviews.append(userData.name)
+            reviews.append(review.review)
+            reviews.append(review.storepoint)
+            # 리뷰간 구분을 위한 구분자 '#'
+            reviews.append('#')
+
+        return HttpResponse(json.dumps({'result': reviews}))
 
 
 # 가게가 사라졌어요 사용자 요청받기
