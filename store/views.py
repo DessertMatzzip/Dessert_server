@@ -31,6 +31,8 @@ def callStore(request):
 
         storeName = request.GET.get('storeName')
         storeRegion = request.GET.get('storeRegion')
+        # storeReviewPoint값이 1일 경우 역순, 0일 경우 정순서로 배열이 출력됨
+        # storeReviewPoint값을 주지 않을 경우 정순으로 기본 설정
         storeReviewPoint = request.GET.get('storeReviewPoint')
 
         # storeRegion의 입력값이 있음. 또한 리뷰순을 역순서 필터적용
