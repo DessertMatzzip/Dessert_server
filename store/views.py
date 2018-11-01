@@ -36,8 +36,8 @@ def callStore(request):
         storeReviewPoint = request.GET.get('storeReviewPoint')
 
         # storeRegion의 입력값이 있음. 또한 리뷰순을 역순서 필터적용
-        if storeRegion != "" and storeReviewPoint == 1:
-            store_set = Store.objects.filter(storename=storeName).filter(storeregion=storeRegion).order_by('storepoint')
+        if storeRegion != "" and storeReviewPoint == "1":
+            store_set = Store.objects.filter(storename=storeName).order_by('storepoint')
             for store in store_set:
                 listStore.append(store.id)
                 listStore.append(store.storename)
@@ -52,8 +52,8 @@ def callStore(request):
             return HttpResponse(json.dumps({'result': listStore}))
 
         # storeRegion 입력값이 있으면서 리뷰순을 정순으로 설정했을 떄.
-        elif storeRegion != "" or storeReviewPoint == 0:
-            store_set = Store.objects.filter(storename=storeName).filter(storeregion=storeRegion).order_by('-storepoint')
+        elif storeRegion != "" or storeReviewPoint == "0":
+            store_set = Store.objects.filter(storename=storeName, storeregion=storeRegion).order_by('-storepoint')
             for store in store_set:
                 listStore.append(store.id)
                 listStore.append(store.storename)
@@ -68,7 +68,7 @@ def callStore(request):
             return HttpResponse(json.dumps({'result': listStore}))
 
         # storeRegion 입력값이 없으면서 역순 설정
-        elif storeRegion == "" and storeReviewPoint == 1:
+        elif storeRegion == "" and storeReviewPoint == "1":
             store_set = Store.objects.filter(storename=storeName).order_by('storepoint')
             for store in store_set:
                 listStore.append(store.id)
@@ -84,7 +84,7 @@ def callStore(request):
             return HttpResponse(json.dumps({'result': listStore}))
 
         # storeRegion 입력값이 없음. 리뷰순이 설정됐거나 기본
-        elif storeRegion == "" or storeReviewPoint == 0:
+        elif storeRegion == "" and storeReviewPoint == "0":
             store_set = Store.objects.filter(storename=storeName).order_by('-storepoint')
             for store in store_set:
                 listStore.append(store.id)
