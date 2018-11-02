@@ -4,6 +4,7 @@ from . import views
 urlpatterns = [
     path('call/review', views.callReview, name='callReview'),
     path('call/snshome', views.callSnsHome, name='callSnsHome'),
+    path('add/follow', views.addFollow, name='addFollow'),
     path('follow/call', views.callFollow, name='callFollow'),
     path('follower/call', views.callFollower, name='callFollower'),
     path('collection/call', views.callCollection, name='callCollection'),

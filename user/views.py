@@ -105,6 +105,25 @@ def callFollower(request):
         return HttpResponse(json.dumps({'result': follower}))
 
 
+# 팔로우 추가하기
+@csrf_exempt
+def addFollow(request):
+    if request.method == "POST":
+        # user의 id와 follow하고자 하는 이의 id를 입력받음
+        userId = request.POST.get('userId')
+        followId = request.POST.get('followId')
+        # follow id를 통해 follow의 mail주소를 얻어냄
+        # Follow DB의 followid 컬럼은 외래키가 아닌 mail주소를 입력받기 때문임
+        followUser = User.objects.get(id=followId)
+
+        follow = Follow(followid=followUser.mail, userid_id=userId)
+        follow.save()
+
+
+        return HttpResponse(json.dumps({'result': 'added_follow'}))
+
+
+
 # 개인 컬렉션 리스트 불러오기
 @csrf_exempt
 def callCollection(request):
