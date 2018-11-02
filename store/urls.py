@@ -8,4 +8,5 @@ urlpatterns = [
     path('shutdown', views.shutdownStore, name='shutdownStore'),
     path('add', views.addStore, name='addStore'),
     path('select', views.selectRegion, name='selectRegion'),
+    path('delete/comment', views.deleteComment, name='deleteComment'),
 ]

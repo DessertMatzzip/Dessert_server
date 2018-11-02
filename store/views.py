@@ -135,6 +135,7 @@ def commentStore(request):
         for review in review_set:
             userData = User.objects.get(id=review.userid_id)
             # userid_id를 통해 User테이블의 user 닉네임을 배열에 append하여야 함
+            reviews.append(review.id)
             reviews.append(userData.name)
             reviews.append(review.review)
             reviews.append(review.storepoint)
@@ -200,3 +201,17 @@ def selectRegion(request):
             listStore.append('#')
 
         return HttpResponse(json.dumps({'result': listStore}))
+
+
+
+
+# 리뷰 삭제하기
+@csrf_exempt
+def deleteComment(request):
+    if request.method == "POST":
+
+        reviewId = request.POST.get('reviewId')
+        del_com = StoreReview.objects.get(id=reviewId)
+        del_com.delete()
+
+        return HttpResponse(json.dumps({'result': 'deleted_comment'}))
