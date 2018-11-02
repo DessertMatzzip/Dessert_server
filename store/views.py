@@ -136,6 +136,7 @@ def commentStore(request):
             userData = User.objects.get(id=review.userid_id)
             # userid_id를 통해 User테이블의 user 닉네임을 배열에 append하여야 함
             reviews.append(review.id)
+            reviews.append(userData.id)
             reviews.append(userData.name)
             reviews.append(review.review)
             reviews.append(review.storepoint)

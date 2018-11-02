@@ -2,6 +2,8 @@ from django.contrib import admin
 from django.urls import path
 from . import views
 urlpatterns = [
+    path('call/review', views.callReview, name='callReview'),
+    path('call/snshome', views.callSnsHome, name='callSnsHome'),
     path('follow/call', views.callFollow, name='callFollow'),
     path('follower/call', views.callFollower, name='callFollower'),
     path('collection/call', views.callCollection, name='callCollection'),

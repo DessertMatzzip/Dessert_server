@@ -2,6 +2,12 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
+from store.models import Store
+from store.models import StoreReview
+from store.models import StoreShutdown
+from login.models import User
+from .models import Follow
+from .models import WantToGo
 import json
 
 
@@ -29,18 +35,74 @@ import json
 # 11. 가고싶은 가게 리스트 저장하기(삭제하기)
 # 12. 가고싶은 가게 테이블에서 (유저id+가게id)를 추가, 삭제하기
 
+
+# 작성한 리뷰 리스트 불러오기
+@csrf_exempt
+def callReview(request):
+    if request.method == "GET":
+        reviews = []
+        userId = request.GET.get('userId')
+        review_set = StoreReview.objects.filter(userid_id=userId)
+        for review in review_set:
+            userData = User.objects.get(id=review.userid_id)
+            # userid_id를 통해 User테이블의 user 닉네임을 배열에 append하여야 함
+            reviews.append(review.id)
+            reviews.append(userData.id)
+            reviews.append(userData.name)
+            reviews.append(review.review)
+            reviews.append(review.storepoint)
+            # 리뷰간 구분을 위한 구분자 '#'
+            reviews.append('#')
+
+        return HttpResponse(json.dumps({'result': reviews}))
+
+# 개인 SNS 공간(홈)으로 이동하기
+@csrf_exempt
+def callSnsHome(request):
+    if request.method == "GET":
+        return HttpResponse(json.dumps({'result': 'testok'}))
+
+
 # 팔로우 리스트 불러오기
 @csrf_exempt
 def callFollow(request):
-    if request.method == "POST":
-        return HttpResponse(json.dumps({'result': 'testok'}))
+    if request.method == "GET":
+        follow = []
+        userId = request.GET.get('userId')
+        user_set = Follow.objects.filter(userid_id=userId)
+        for followUser in user_set:
+            # 팔로우 한 유저의 정보를 보기 위해 User DB get
+            # followid 컬럼은 fk가 아닌, charField이므로 mail이 저장되어있음
+            userData = User.objects.get(mail=followUser.followid)
+            follow.append(userData.id)
+            follow.append(userData.name)
+            follow.append(userData.age)
+            follow.append(userData.gender)
+            follow.append(userData.region)
+            follow.append('#')
+
+        return HttpResponse(json.dumps({'result': follow}))
 
 
 # 팔로워 리스트 불러오기
 @csrf_exempt
 def callFollower(request):
-    if request.method == "POST":
-        return HttpResponse(json.dumps({'result': 'testok'}))
+    if request.method == "GET":
+        follower = []
+        userMail = request.GET.get('userMail')
+        user_set = Follow.objects.filter(followid=userMail)
+        for followerUser in user_set:
+            # followerUser가 갖고 있는 userid_id를 통해 User DB 접근
+            # User DB의 해당 컬럼이 갖고 있는 name, age등의 정보를 배열에 append
+            userData = User.objects.get(id=followerUser.userid_id)
+            follower.append(followerUser.userid_id)
+            follower.append(userData.name)
+            follower.append(userData.age)
+            follower.append(userData.gender)
+            follower.append(userData.region)
+            follower.append('#')
+
+        return HttpResponse(json.dumps({'result': follower}))
 
 
 # 개인 컬렉션 리스트 불러오기
@@ -50,7 +112,7 @@ def callCollection(request):
         return HttpResponse(json.dumps({'result': 'testok'}))
 
 
-# 개인 컬렉션 리스트 삭제하rl
+# 개인 컬렉션 리스트 삭제하기
 @csrf_exempt
 def deleteCollection(request):
     if request.method == "POST":

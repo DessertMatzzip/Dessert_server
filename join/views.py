@@ -154,6 +154,7 @@ def search(request):
         user_set = User.objects.filter(name = userName)
         #  user_set의 name, age, gender, region을 배열에 밀어 넣음
         for user in user_set:
+            listUser.append(user.id)
             listUser.append(user.name)
             listUser.append(user.age)
             listUser.append(user.gender)
