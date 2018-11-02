@@ -6,6 +6,8 @@ from store.models import Store
 from store.models import StoreReview
 from store.models import StoreShutdown
 from login.models import User
+from .models import Follow
+from .models import WantToGo
 import json
 
 
@@ -61,19 +63,46 @@ def callSnsHome(request):
         return HttpResponse(json.dumps({'result': 'testok'}))
 
 
-
 # 팔로우 리스트 불러오기
 @csrf_exempt
 def callFollow(request):
-    if request.method == "POST":
-        return HttpResponse(json.dumps({'result': 'testok'}))
+    if request.method == "GET":
+        follow = []
+        userId = request.GET.get('userId')
+        user_set = Follow.objects.filter(userid_id=userId)
+        for followUser in user_set:
+            # 팔로우 한 유저의 정보를 보기 위해 User DB get
+            # followid 컬럼은 fk가 아닌, charField이므로 mail이 저장되어있음
+            userData = User.objects.get(mail=followUser.followid)
+            follow.append(userData.id)
+            follow.append(userData.name)
+            follow.append(userData.age)
+            follow.append(userData.gender)
+            follow.append(userData.region)
+            follow.append('#')
+
+        return HttpResponse(json.dumps({'result': follow}))
 
 
 # 팔로워 리스트 불러오기
 @csrf_exempt
 def callFollower(request):
-    if request.method == "POST":
-        return HttpResponse(json.dumps({'result': 'testok'}))
+    if request.method == "GET":
+        follower = []
+        userMail = request.GET.get('userMail')
+        user_set = Follow.objects.filter(followid=userMail)
+        for followerUser in user_set:
+            # followerUser가 갖고 있는 userid_id를 통해 User DB 접근
+            # User DB의 해당 컬럼이 갖고 있는 name, age등의 정보를 배열에 append
+            userData = User.objects.get(id=followerUser.userid_id)
+            follower.append(followerUser.userid_id)
+            follower.append(userData.name)
+            follower.append(userData.age)
+            follower.append(userData.gender)
+            follower.append(userData.region)
+            follower.append('#')
+
+        return HttpResponse(json.dumps({'result': follower}))
 
 
 # 개인 컬렉션 리스트 불러오기
@@ -83,7 +112,7 @@ def callCollection(request):
         return HttpResponse(json.dumps({'result': 'testok'}))
 
 
-# 개인 컬렉션 리스트 삭제하rl
+# 개인 컬렉션 리스트 삭제하기
 @csrf_exempt
 def deleteCollection(request):
     if request.method == "POST":
