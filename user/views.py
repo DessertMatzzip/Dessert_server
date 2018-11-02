@@ -2,6 +2,10 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
+from store.models import Store
+from store.models import StoreReview
+from store.models import StoreShutdown
+from login.models import User
 import json
 
 
@@ -28,6 +32,35 @@ import json
 
 # 11. 가고싶은 가게 리스트 저장하기(삭제하기)
 # 12. 가고싶은 가게 테이블에서 (유저id+가게id)를 추가, 삭제하기
+
+
+# 작성한 리뷰 리스트 불러오기
+@csrf_exempt
+def callReview(request):
+    if request.method == "GET":
+        reviews = []
+        userId = request.GET.get('userId')
+        review_set = StoreReview.objects.filter(userid_id=userId)
+        for review in review_set:
+            userData = User.objects.get(id=review.userid_id)
+            # userid_id를 통해 User테이블의 user 닉네임을 배열에 append하여야 함
+            reviews.append(review.id)
+            reviews.append(userData.id)
+            reviews.append(userData.name)
+            reviews.append(review.review)
+            reviews.append(review.storepoint)
+            # 리뷰간 구분을 위한 구분자 '#'
+            reviews.append('#')
+
+        return HttpResponse(json.dumps({'result': reviews}))
+
+# 개인 SNS 공간(홈)으로 이동하기
+@csrf_exempt
+def callSnsHome(request):
+    if request.method == "GET":
+        return HttpResponse(json.dumps({'result': 'testok'}))
+
+
 
 # 팔로우 리스트 불러오기
 @csrf_exempt
