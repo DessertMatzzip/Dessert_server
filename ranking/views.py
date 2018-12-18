@@ -6,7 +6,12 @@ from store.models import StoreReview
 from login.models import User
 from django.views.decorators.csrf import csrf_exempt
 import json
-# Create your views here.
+
+###
+#   랭킹 관련 뷰
+#
+#   @author brother Jun
+###
 
 # 작동원리
     # 1. 지역별 리뷰어 랭킹 불러오기

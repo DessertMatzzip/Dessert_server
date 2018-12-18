@@ -5,11 +5,17 @@ from login.models import User
 from django.db.models import Q
 from django.views.decorators.csrf import csrf_exempt
 import json
-# Create your views here.
+
+
+###
+#   회원정보 관련 뷰
+#
+#   @author brother Jun
+###
+
 
 # 작동원리
     # 1. 자체회원가입 버튼 클릭시 editText의 회원정보들을 DB에 입력
-
     # 2. (회원정보 수정 시) 액세스 토큰값을 비교하여 해당 테이블의 회원 선택
     # 3.  회원정보 수정 버튼 클릭시 editText의 회원정보들을 DB에 갱신
 

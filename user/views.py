@@ -10,6 +10,11 @@ from .models import Follow
 from .models import WantToGo
 import json
 
+###
+#   SNS 관련 뷰
+#
+#   @author brother Jun
+###
 
 # Create your views here.
 

@@ -6,7 +6,13 @@ from random import *
 from string import *
 from django.views.decorators.csrf import csrf_exempt
 import json
-# Create your views here.
+
+###
+#   로그인 뷰
+#
+#   @author brother Jun
+###
+
 
 # 작동원리
     # 1. login url로 accessToken을 파라미터로 갖으면서 로그인 시도
