@@ -7,7 +7,12 @@ from .models import StoreShutdown
 from login.models import User
 from django.views.decorators.csrf import csrf_exempt
 import json
-# Create your views here.
+
+###
+#   점포 가게 관련 뷰
+#
+#   @author brother Jun
+###
 
 # 작동원리
 # 1. 가게 데이터 불러오기
