@@ -107,7 +107,7 @@ def callStore(request):
 
 
 
-# 가게 데이터 수정(요청받기)
+# 가게 데이터 수정(요청받기) // 가게가 사라졌어요 요청과 통합하여 운용
 @csrf_exempt
 def modifyStore(request):
     if request.method == "POST":
