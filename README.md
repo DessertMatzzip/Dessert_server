@@ -4,6 +4,7 @@
 
 ### API 문서 : [Google docs로 이동](https://docs.google.com/document/d/1K3fzN_OUAdnAGoy0OsK1ejsdH4eCdTpa25JWxrYZ6W8/edit)
 
+
 ## file structure
 
 - dessertServer : django project
@@ -18,10 +19,16 @@
 
 - ranking : 가게 랭킹, 리뷰어 랭킹에 관한 app
 
+- login : 회원 로그인을 위한 앱(페이스북, 카카오톡 연동로그인 + 자체로그인)
+
+- join : 회원가입과 회원정보 수정을 위한 앱
+
 - screenshots : 진행상황을 표시하기 위한 이미지 저장 폴더
+
 
 ## 진행상황
 ### 2018.07.26
+
 > - django REST Framework 설치 및 테스트 케이스 동작확인
 > > ![스크린샷](./screenshots/2018-07-26.png)
 
