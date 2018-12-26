@@ -191,17 +191,30 @@ def callCollectionList(request):
 @csrf_exempt
 def addCollectionList(request):
     if request.method == "POST":
-        return HttpResponse(json.dumps({'result': 'testok'}))
+        userMail = request.POST.get('userMail')
+        collectionId = request.POST.get('collectionId')
+        storeId = request.POST.get('storeId')
+
+        # storeId, collectionId 받아오기
+        collection = CollectionList.objects.get(id=collectionId)
+        collection_id = collection.id
+
+        store = Store.objects.get(id=storeId)
+        store_id = store.id
+
+        user = User.objects.get(mail=userMail)
+        user_id = user.id
+
+        collections = Collection(collectid_id=collection_id, storeid_id=store_id, userid_id=user_id)
+        collections.save()
+
+        return HttpResponse(json.dumps({'result': 'add_collection_store'}))
 
 # 개인 컬렉션 리스트 삭제하기
 @csrf_exempt
 def deleteCollectionList(request):
     if request.method == "POST":
         return HttpResponse(json.dumps({'result': 'testok'}))
-
-
-
-
 
 
 # 가고싶은 가게 리스트 불러오기

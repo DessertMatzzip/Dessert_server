@@ -12,6 +12,7 @@ class CollectionList(models.Model):
 class Collection(models.Model):
     collectid= models.ForeignKey(CollectionList, on_delete=models.CASCADE)
     storeid= models.ForeignKey(Store, on_delete=models.CASCADE)
+    userid=models.ForeignKey(User, on_delete=models.CASCADE, default="1")
 
 
 class WantToGo(models.Model):
