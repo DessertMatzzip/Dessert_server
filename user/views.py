@@ -134,15 +134,30 @@ def addFollow(request):
 # 개인 컬렉션 리스트 불러오기
 @csrf_exempt
 def callCollection(request):
-    if request.method == "POST":
-        return HttpResponse(json.dumps({'result': 'testok'}))
+    if request.method == "GET":
+        listCollection =[]
+        userMail = request.GET.get('userMail')
+
+        user = User.objects.get(mail=userMail)
+        userId = user.id
+
+        collection_set = CollectionList.objects.filter(userid_id=userId)
+
+        for collection in collection_set:
+            listCollection.append(collection.collectionname)
+
+        return HttpResponse(json.dumps({'result': listCollection }))
 
 
 # 개인 컬렉션 리스트 삭제하기
+# 해당 컬렉션 고유 id를 받아서 컬렉션 리스트 삭제
 @csrf_exempt
 def deleteCollection(request):
     if request.method == "POST":
-        return HttpResponse(json.dumps({'result': 'testok'}))
+        collectionId = request.POST.get('collectionId')
+        del_col = CollectionList.objects.filter(id = collectionId)
+        del_col.delete()
+        return HttpResponse(json.dumps({'result': 'delete_collection'}))
 
 
 # 개인 컬렉션 리스트 생성하기
@@ -163,11 +178,14 @@ def createCollection(request):
 
         return HttpResponse(json.dumps({'result': 'create_collection'}))
 
-# 컬렉션 내 가게리스트 불러오기
+
+
+
+# 컬렉션 리스트 내 가게 리스트 불러오기
 @csrf_exempt
 def callCollectionList(request):
-    if request.method == "POST":
-        return HttpResponse(json.dumps({'result': 'testok'}))
+    if request.method == "GET":
+        return HttpResponse(json.dumps({'result': listCollection }))
 
 # 컬렉션 내 가게리스트 가게 추가하기
 @csrf_exempt
@@ -175,11 +193,13 @@ def addCollectionList(request):
     if request.method == "POST":
         return HttpResponse(json.dumps({'result': 'testok'}))
 
-# 개인 컬렉션 리스트 생성하기
+# 개인 컬렉션 리스트 삭제하기
 @csrf_exempt
 def deleteCollectionList(request):
     if request.method == "POST":
         return HttpResponse(json.dumps({'result': 'testok'}))
+
+
 
 
 

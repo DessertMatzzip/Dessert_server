@@ -209,8 +209,6 @@ def selectRegion(request):
         return HttpResponse(json.dumps({'result': listStore}))
 
 
-
-
 # 리뷰 삭제하기
 @csrf_exempt
 def deleteComment(request):
