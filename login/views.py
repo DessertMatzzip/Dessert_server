@@ -62,7 +62,8 @@ def loginItself(request):
                         passkey += passkey.join(random.choice(string.ascii_letters))
                     else:
                         passkey += passkey.join(random.choice(string.digits))
-                user = User(accesstoken_itself=passkey)
+                user = User.objects.get(mail=loginEmail)
+                user.accesstoken_itself = passkey
                 user.save()
                 return HttpResponse(json.dumps({'result': {'sign' : 'signin_req',
                                                            'passkey' : passkey}}))

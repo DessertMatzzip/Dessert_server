@@ -8,6 +8,8 @@ from store.models import StoreShutdown
 from login.models import User
 from .models import Follow
 from .models import WantToGo
+from .models import CollectionList
+from .models import Collection
 import json
 
 ###
@@ -147,7 +149,19 @@ def deleteCollection(request):
 @csrf_exempt
 def createCollection(request):
     if request.method == "POST":
-        return HttpResponse(json.dumps({'result': 'testok'}))
+        # userMail과 생성할 컬렉션name을 받아오기
+        userMail = request.POST.get('userMail')
+        collectionName= request.POST.get('collectionName')
+
+        #사용자 mail의 id값을 찾아내어 CollectionList의 userid_id에 삽입
+        #collectionName은 그대로 CollectionList의 collectionname에 삽입
+        user = User.objects.get(mail=userMail)
+        userId = user.id
+
+        collection = CollectionList(collectionname=collectionName, userid_id=userId)
+        collection.save()
+
+        return HttpResponse(json.dumps({'result': 'create_collection'}))
 
 # 컬렉션 내 가게리스트 불러오기
 @csrf_exempt
