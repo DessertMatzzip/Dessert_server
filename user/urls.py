@@ -13,7 +13,4 @@ urlpatterns = [
     path('collection/list/call', views.callCollectionList, name='callCollectionList'),
     path('collection/list/add', views.addCollectionList, name='addCollectionList'),
     path('collection/list/delete', views.deleteCollectionList, name='deleteCollectionList'),
-    path('store/call', views.callStoreList, name='callStoreList'),
-    path('store/storage', views.storageStoreList, name='storageStoreList'),
-    path('store/delete', views.deleteStoreList, name='deleteStoreList'),
 ]

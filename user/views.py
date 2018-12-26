@@ -144,7 +144,9 @@ def callCollection(request):
         collection_set = CollectionList.objects.filter(userid_id=userId)
 
         for collection in collection_set:
+            listCollection.append(collection.id)
             listCollection.append(collection.collectionname)
+            listCollection.append('#')
 
         return HttpResponse(json.dumps({'result': listCollection }))
 
@@ -185,7 +187,21 @@ def createCollection(request):
 @csrf_exempt
 def callCollectionList(request):
     if request.method == "GET":
-        return HttpResponse(json.dumps({'result': listCollection }))
+        listCollection_store =[]
+        collectionId = request.GET.get('collectionId')
+
+        # 컬렉션 리스트 DB내 collectioId에 해당하는 col_set 묶음
+        col_set = Collection.objects.filter(collectid_id=collectionId)
+
+        # 가게 상세정보 출력을 위해 Store DB 접근
+        for col in col_set:
+            listCollection_store.append(col.id)
+            listCollection_store.append(Store.objects.get(id=col.storeid_id).storename)
+            listCollection_store.append(Store.objects.get(id=col.storeid_id).storeregion)
+            listCollection_store.append(Store.objects.get(id=col.storeid_id).storeaddress)
+            listCollection_store.append('#')
+
+        return HttpResponse(json.dumps({'result': listCollection_store }))
 
 # 컬렉션 내 가게리스트 가게 추가하기
 @csrf_exempt
@@ -214,24 +230,9 @@ def addCollectionList(request):
 @csrf_exempt
 def deleteCollectionList(request):
     if request.method == "POST":
-        return HttpResponse(json.dumps({'result': 'testok'}))
+        collection_store_id = request.POST.get('collection_storeId')
 
+        del_col_store = Collection(id=collection_store_id)
+        del_col_store.delete()
 
-# 가고싶은 가게 리스트 불러오기
-@csrf_exempt
-def callStoreList(request):
-    if request.method == "POST":
-        return HttpResponse(json.dumps({'result': 'testok'}))
-
-
-# 가고싶은 가게 리스트 저장하기
-@csrf_exempt
-def storageStoreList(request):
-    if request.method == "POST":
-        return HttpResponse(json.dumps({'result': 'testok'}))
-
-# 가고싶은 가게 리스트 삭제하기
-@csrf_exempt
-def deleteStoreList(request):
-    if request.method == "POST":
-        return HttpResponse(json.dumps({'result': 'testok'}))
+        return HttpResponse(json.dumps({'result': 'delete_collection_store'}))
