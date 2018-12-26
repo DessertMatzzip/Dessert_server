@@ -24,7 +24,6 @@ import json
 @csrf_exempt
 def callRankingReviewer(request):
     if request.method == "GET":
-
         # 랭킹을 보고자 하는 지역 -> 서버는 받아서 해당 지역 storeid를 검색해 테이블 구성 -> 해당 테이블에서 가장 많이 존재하는 userId -> username 출력
         rankingRegion = request.GET.get('rankingRegion')
         store_set = Store.objects.filter(region=rankingRegion)
