@@ -30,10 +30,10 @@ def callRankingReviewer(request):
         store_set = Store.objects.filter(region=rankingRegion)
 
         # storeReview DB에서 해당 지역 가게들만 review_set으로 묶음
-        for store in store_set:
-            review_set = StoreReview.objects.get(storeid_id=store.id)
+        #for store in store_set:
+        #    review_set = StoreReview.objects.get(storeid_id=store.id)
 
-        #result = StoreReview.objects.filter(storeid_id=store.id).values('userid_id').annotate(Count('userid_id')).order_by()
+        result = StoreReview.objects.filter(storeid_id=store.id).values('userid_id').annotate(Count('userid_id')).order_by()
 
         return HttpResponse(json.dumps({'result': result}))
 
