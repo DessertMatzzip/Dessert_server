@@ -196,3 +196,11 @@
 > > ![스크린샷](./screenshots/2018-11-23.png)
 
 ## 어플리케이션 디자인
+- 인트로 화면
+> ![스크린샷](./screenshots/app_intro.png)
+- 로그인 화면
+> ![스크린샷](./screenshots/app_login.png)
+- 랭킹 시스템(리뷰 많이 남긴이, 가게 별점순)
+> ![스크린샷](./screenshots/app_rank.png)
+- SNS 기능(팔로우, 팔로워, 컬렉션 리스트)
+> ![스크린샷](./screenshots/app_sns.png) 
