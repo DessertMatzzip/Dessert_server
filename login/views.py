@@ -28,6 +28,7 @@ import json
 def loginFacebook(request):
     if request.method == "POST":
         accessToken = request.POST.get('accessToken')
+        # 액세스토큰이 DB에 있는 대상자는 signin_Req.
         if User.objects.filter(accesstoken_facebook=accessToken).exists():
             return HttpResponse(json.dumps({'result': 'signin_req'}))
         else:
@@ -46,6 +47,7 @@ def loginKakao(request):
 
 
 # 자체 로그인, email(id)와 pwd를 db에서 확인
+# id, pwd가 맞다면 accessToken 생성, 덮어쓰기
 @csrf_exempt
 def loginItself(request):
     if request.method == "POST":
@@ -53,20 +55,19 @@ def loginItself(request):
         password = request.POST.get('loginPwd')
         if User.objects.filter(mail=mail).exists():
             if User.objects.filter(password=password).exists():
-                return HttpResponse(json.dumps({'result':'signin_req'}))
+                import string, random
+                passkey = ''
+                for x in range(10):
+                    if random.choice([1, 2]) == 1:
+                        passkey += passkey.join(random.choice(string.ascii_letters))
+                    else:
+                        passkey += passkey.join(random.choice(string.digits))
+                user = User.objects.get(mail=loginEmail)
+                user.accesstoken_itself = passkey
+                user.save()
+                return HttpResponse(json.dumps({'result': {'sign' : 'signin_req',
+                                                           'passkey' : passkey}}))
             else:
                 return HttpResponse(json.dumps({'result': 'error_pwd'}))
         else:
             return HttpResponse(json.dumps({'result':'error_email'}))
-    elif request.method =="GET":
-        accesstoken = request.GET.get('userAccessToken')
-        import string, random
-        passkey = ''
-        for x in range(10):
-            if random.choice([1, 2]) == 1:
-                passkey += passkey.join(random.choice(string.ascii_letters))
-            else:
-                passkey += passkey.join(random.choice(string.digits))
-        user = User(accesstoken_itself=passkey)
-        user.save()
-        return HttpResponse(json.dumps({'result': passkey}))

@@ -10,7 +10,6 @@ class Store(models.Model):
     storelatitude = models.CharField(max_length=200, default="176.4")
     storelongitude = models.CharField(max_length=200, default="-145.3")
 
-
 class StoreReview(models.Model):
     storeid = models.ForeignKey(Store, on_delete=models.CASCADE)
     review = models.CharField(max_length=200)

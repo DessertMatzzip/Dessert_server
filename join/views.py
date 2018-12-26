@@ -20,6 +20,7 @@ import json
     # 3.  회원정보 수정 버튼 클릭시 editText의 회원정보들을 DB에 갱신
 
 # 자체회원등록 join def
+# DB에서 회원 메일을 조회하여 중복 체크
 @csrf_exempt
 def joinItself(request):
     if request.method == "POST":
@@ -77,7 +78,7 @@ def joinFacebook(request):
 # 회원정보 수정 def
 @csrf_exempt
 def modify(request):
-    # 회원정보 수정전 정보 뿌려주기(get)
+    # 회원정보 수정 전 정보 뿌려주기(get)
     if request.method == "GET":
         userAccessToken = request.GET.get('userAccessToken')
         # 자체 액세스 토큰
@@ -136,6 +137,7 @@ def modify(request):
         userRegion = request.POST.get('userRegion')
         userIntroduce = request.POST.get('userIntroduce')
 
+        #userMail 혹은 액세스 토큰 받아서 해당 회원정보 수정
         user = User.objects.get(mail=userMail)
         user.password=userPwd
         user.name=userName
